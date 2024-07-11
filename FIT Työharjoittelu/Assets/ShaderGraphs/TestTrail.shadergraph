@@ -161,7 +161,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "c734475e2dca49a28a84ea362281f3e7"
+                    "m_Id": "2f583540579040f291ffae9bd9c3ecd6"
                 },
                 "m_SlotId": 1
             }
@@ -231,7 +231,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "2f583540579040f291ffae9bd9c3ecd6"
+                    "m_Id": "c734475e2dca49a28a84ea362281f3e7"
                 },
                 "m_SlotId": 1
             }
@@ -1232,10 +1232,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 316.0,
-            "y": 285.0,
-            "width": 208.0,
-            "height": 278.00006103515627
+            "x": 378.0000305175781,
+            "y": 427.0,
+            "width": 207.99996948242188,
+            "height": 278.0
         }
     },
     "m_Slots": [
@@ -1348,10 +1348,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 662.0,
-            "y": 208.00001525878907,
-            "width": 207.99993896484376,
-            "height": 302.0
+            "x": 720.0,
+            "y": 75.99999237060547,
+            "width": 208.00006103515626,
+            "height": 302.0000305175781
         }
     },
     "m_Slots": [
@@ -2572,7 +2572,7 @@
     "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
-    "m_SupportVFX": false
+    "m_SupportVFX": true
 }
 
 {
