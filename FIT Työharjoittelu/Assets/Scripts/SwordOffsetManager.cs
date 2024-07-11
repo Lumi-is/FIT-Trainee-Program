@@ -5,8 +5,11 @@ using System;
 
 public class SwordOffsetManager : MonoBehaviour
 {
+    [Range(-1,1)]
     public float p_xOffset;
+    [Range(-1,1)]
     public float p_yOffset;
+    [Range(-1,1)]
     public float p_zOffset;
 
     void Update()
