@@ -133,7 +133,6 @@ public class BladeModeScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-            
         }
     }
 
