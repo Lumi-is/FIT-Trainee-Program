@@ -1,9 +1,10 @@
 using System.Collections;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
 using UnityEngine.Rendering;
 using NUnit.Framework;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -35,10 +36,16 @@ public class BladeModeScript : MonoBehaviour
 
     private bool CuttingSuccesful;
 
+    [SerializeField] SwordVariables SwordVariable;
+
     [SerializeField] private float RotationThreshold;
     public bool xRotationConstant;
     public bool yRotationConstant;
     public bool zRotationConstant;
+
+    public float CutSpeedThreshold;
+
+    [SerializeField] XRBaseController RightController;
 
     void Start()
     {
@@ -53,6 +60,7 @@ public class BladeModeScript : MonoBehaviour
     {
         if(BladeInside)
         {
+            TriggerHaptic(RightController);
             Slowdown = true;
         } else {
             Slowdown = false;
@@ -109,7 +117,8 @@ public class BladeModeScript : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
-        go.GetComponent<Collider>().enabled = false;
+        //go.GetComponent<Collider>().enabled = false;
+        rb.useGravity = false;
 
         StartCoroutine(Dissolve(go));
 
@@ -179,7 +188,7 @@ public class BladeModeScript : MonoBehaviour
     IEnumerator SliceCooldown(float Cooldown)
     {
         canSlice = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         canSlice = true;
         bladeHitCorrectly = false;
         bladeHitIncorrectly = false;
@@ -217,7 +226,7 @@ public class BladeModeScript : MonoBehaviour
             }
 
 
-            if(xRotationConstant && yRotationConstant && zRotationConstant)
+            if(xRotationConstant && yRotationConstant && zRotationConstant && SwordVariable.Speed > CutSpeedThreshold)
             {
                 CuttingSuccesful = true;
                 StartCoroutine(SliceAction());
@@ -241,6 +250,11 @@ public class BladeModeScript : MonoBehaviour
             CuttingSuccesful = false;
             BladeInside = false;            
         }
+    }
+
+    void TriggerHaptic(XRBaseController controller)
+    {
+        controller.SendHapticImpulse(1,0.5f);
     }
 }
 
