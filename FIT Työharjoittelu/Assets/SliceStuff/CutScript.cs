@@ -1,8 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
-using Unity.VisualScripting;
+using UnityEngine.Rendering;
+using NUnit.Framework;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -19,7 +20,24 @@ public class BladeModeScript : MonoBehaviour
     public LayerMask layerMask;
     ParticleSystem[] particles;
 
-    private bool canSlice = true; 
+    public bool bladeHitCorrectly;
+
+    public bool bladeHitIncorrectly;
+
+    public bool canSlice = true; 
+
+    public bool Slowdown;
+
+    public bool BladeInside;
+
+    private Quaternion RememberRotation;
+
+    private bool CuttingSuccesful;
+
+    [SerializeField] private float RotationThreshold;
+    public bool xRotationConstant;
+    public bool yRotationConstant;
+    public bool zRotationConstant;
 
     void Start()
     {
@@ -32,7 +50,12 @@ public class BladeModeScript : MonoBehaviour
 
     void Update()
     {
-
+        if(BladeInside)
+        {
+            Slowdown = true;
+        } else {
+            Slowdown = false;
+        }
         if (Input.GetMouseButtonDown(1))
         {
             Zoom(true);
@@ -110,23 +133,108 @@ public class BladeModeScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            
         }
     }
+
+    
 
     void OnTriggerEnter(Collider other)
     {
         if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canSlice)
         {
-            canSlice = false;
-            Slice();
-            StartCoroutine(SliceCooldown());
+            if(!bladeHitIncorrectly){
+                bladeHitCorrectly = true;
+            } else {
+                StartCoroutine(SliceCooldown(1));
+            }
         }
     }
 
-    IEnumerator SliceCooldown()
+    public void StartSliceCooldown(float Cooldown)
     {
+        StartCoroutine(SliceCooldown(Cooldown));
+    }
+
+    IEnumerator SliceCooldown(float Cooldown)
+    {
+        canSlice = false;
         yield return new WaitForSeconds(0.2f);
         canSlice = true;
+        bladeHitCorrectly = false;
+        bladeHitIncorrectly = false;
+    }
+
+    public void StartSlicing()
+    {
+        RememberRotation = transform.rotation;
+        BladeInside = true;
+        StartCoroutine(SliceAction());
+    }
+
+    IEnumerator SliceAction()
+    {
+        if(BladeInside)
+        {
+            yield return null;
+            if(transform.rotation.x < RememberRotation.x + RotationThreshold && transform.rotation.x > RememberRotation.x - RotationThreshold)
+            {
+                xRotationConstant = true;
+            } else {
+                xRotationConstant = false;
+            }
+            if(transform.rotation.y < RememberRotation.y + RotationThreshold && transform.rotation.y > RememberRotation.y - RotationThreshold)
+            {
+                yRotationConstant = true;
+            } else {
+                yRotationConstant = false;
+            }
+            if(transform.rotation.z < RememberRotation.z + RotationThreshold && transform.rotation.z > RememberRotation.z - RotationThreshold)
+            {
+                zRotationConstant = true;
+            } else {
+                zRotationConstant = false;
+            }
+
+
+            if(xRotationConstant && yRotationConstant && zRotationConstant)
+            {
+                CuttingSuccesful = true;
+                StartCoroutine(SliceAction());
+            } else {
+                CuttingSuccesful = false;
+            }
+        } else {
+            yield break;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
+        {
+            if(CuttingSuccesful)
+            {
+               Slice(); 
+            } 
+
+            CuttingSuccesful = false;
+            BladeInside = false;            
+        }
     }
 }
+
+//canSlice = false;
+//Slice();
+//StartCoroutine(SliceCooldown());
+
+/*
+- Check whether the blade hitboxes are triggered in the correct order when hitting an enemy
+
+- upon impact, start slowdown and a constant check for changes in the blade trajectory - threshold configurable for trajectory change required for failing
+
+- VFX for cutting 
+
+- after exiting the hitbox, do the slice
+*/
 

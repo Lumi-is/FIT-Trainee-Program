@@ -94,7 +94,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 216d2451930bcb043bd2c99e8092e4a0,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -234,8 +235,8 @@ Transform:
   m_GameObject: {fileID: 110136661}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.117, y: 0.504, z: -0}
-  m_LocalScale: {x: 0.1, y: 1, z: 0.1}
+  m_LocalPosition: {x: 0.206, y: -0.234, z: -0}
+  m_LocalScale: {x: 0.076528005, y: 1, z: 0.051125}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1493101858}
@@ -509,7 +510,7 @@ GameObject:
   - component: {fileID: 226325767}
   - component: {fileID: 226325771}
   m_Layer: 9
-  m_Name: TestCube
+  m_Name: TestCuttable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,7 +706,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2606,6 +2607,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1523183699}
   - {fileID: 1760327463}
   - {fileID: 921773522}
   - {fileID: 110136662}
@@ -2624,7 +2626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0
-  TrailSpeedThreshold: 0
+  TrailSpeedThreshold: 1
   Trail: {fileID: 921773524}
 --- !u!65 &1493101860
 BoxCollider:
@@ -2645,8 +2647,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7700575, y: 0.1298205, z: 0.11487217}
-  m_Center: {x: 0.21672648, y: 0.06730906, z: 0.017265074}
+  m_Size: {x: 0.77641374, y: 0.035108663, z: 0.06703815}
+  m_Center: {x: 0.2199052, y: 0.08886258, z: -0.001443617}
 --- !u!114 &1493101861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2667,6 +2669,15 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  bladeHitCorrectly: 0
+  bladeHitIncorrectly: 0
+  canSlice: 1
+  Slowdown: 0
+  BladeInside: 0
+  RotationThreshold: 0.2
+  xRotationConstant: 0
+  yRotationConstant: 0
+  zRotationConstant: 0
 --- !u!114 &1493101862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2682,6 +2693,73 @@ MonoBehaviour:
   p_xOffset: 0
   p_yOffset: 0.2
   p_zOffset: 0
+--- !u!1 &1523183698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523183699}
+  - component: {fileID: 1523183701}
+  - component: {fileID: 1523183700}
+  m_Layer: 0
+  m_Name: BackSideHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1523183699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523183698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1493101858}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1523183700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523183698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eece1a7f5a5279e4b9d2265304e2809b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CutScript: {fileID: 1493101861}
+--- !u!65 &1523183701
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523183698}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8191662, y: 0.047819115, z: 0.15836604}
+  m_Center: {x: 0.20757529, y: 0.031102724, z: 0.002212204}
 --- !u!4 &1760327463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f4e0184e68a19df4587ee80f43f04ede,
@@ -2914,7 +2992,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
