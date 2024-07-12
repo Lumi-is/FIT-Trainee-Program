@@ -16,6 +16,7 @@ public class BladeModeScript : MonoBehaviour
     public Transform cutPlane;
 
     public Material crossMaterial;
+    public Material newMat;
 
     public LayerMask layerMask;
     ParticleSystem[] particles;
@@ -87,6 +88,8 @@ public class BladeModeScript : MonoBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
+            hits[i].GetComponent<Renderer>().material = newMat;
+
             SlicedHull hull = SliceObject(hits[i].gameObject, crossMaterial);
             if (hull != null)
             {
@@ -106,8 +109,26 @@ public class BladeModeScript : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
+        go.GetComponent<Collider>().enabled = false;
+
+        StartCoroutine(Dissolve(go));
 
         rb.AddExplosionForce(100, go.transform.position, 20);
+
+        Destroy(go, 2f);
+    }
+
+    IEnumerator Dissolve(GameObject go)
+    {
+        float t = -1f;
+        while(t < 2)
+        {
+            t += Time.deltaTime;
+            if(go != null)
+                go.GetComponent<Renderer>().material.SetFloat("_DissolveTime",t);
+            yield return null;
+        }
+
     }
 
     public SlicedHull SliceObject(GameObject obj, Material crossSectionMaterial = null)

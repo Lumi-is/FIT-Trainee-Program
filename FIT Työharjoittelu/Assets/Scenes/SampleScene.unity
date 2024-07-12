@@ -2665,7 +2665,8 @@ MonoBehaviour:
   zoomOffset: {x: 0, y: 0, z: 0}
   zoomFOV: 15
   cutPlane: {fileID: 110136662}
-  crossMaterial: {fileID: 2100000, guid: d9c8ddb6575360a4bbd1923b6e8d9a74, type: 2}
+  crossMaterial: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
+  newMat: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
