@@ -89,7 +89,7 @@ public class BladeModeScript : MonoBehaviour
 
     public void Slice()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.01f, 0.1f), cutPlane.rotation, layerMask);
 
         if (hits.Length <= 0)
             return;
