@@ -2679,6 +2679,10 @@ MonoBehaviour:
   xRotationConstant: 0
   yRotationConstant: 0
   zRotationConstant: 0
+  vfx: {fileID: 0}
+  rayCastStart: {fileID: 0}
+  rayCastEnd: {fileID: 0}
+  rayCastDir: {x: 0, y: 0, z: 0}
 --- !u!114 &1493101862
 MonoBehaviour:
   m_ObjectHideFlags: 0
