@@ -166,6 +166,9 @@ MonoBehaviour:
     - model: {fileID: 114350483966675461}
       id: 0
       isStickyNote: 0
+    - model: {fileID: 114350483966675558}
+      id: 1
+      isStickyNote: 0
   stickyNoteInfos: []
   categories: []
   uiBounds:
@@ -7274,7 +7277,8 @@ MonoBehaviour:
       m_SerializableType: UnityEditor.VFX.DirectionType, Unity.VisualEffectGraph.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 114350483966675559}
 --- !u!114 &114350483966675408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9484,6 +9488,13 @@ MonoBehaviour:
     position: {x: 444, y: 910}
     expandedSlots: []
     expanded: 0
+  - m_Id: 1
+    linkedSlots:
+    - outputSlot: {fileID: 114350483966675559}
+      inputSlot: {fileID: 114350483966675407}
+    position: {x: 2376.7876, y: 953.36}
+    expandedSlots: []
+    expanded: 0
 --- !u!114 &114350483966675559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9522,6 +9533,7 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 114350483966675497}
+  - {fileID: 114350483966675407}
 --- !u!114 &114350483966675560
 MonoBehaviour:
   m_ObjectHideFlags: 0
