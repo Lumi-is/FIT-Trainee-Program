@@ -1,8 +1,10 @@
 using System.Collections;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
-using UnityEngine.VFX;
+using UnityEngine.Rendering;
+using NUnit.Framework;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class BladeModeScript : MonoBehaviour
     public Material newMat;
 
     public LayerMask layerMask;
+    ParticleSystem[] particles;
 
     public bool bladeHitCorrectly;
 
@@ -33,53 +36,60 @@ public class BladeModeScript : MonoBehaviour
 
     private bool CuttingSuccesful;
 
+    [SerializeField] SwordVariables SwordVariable;
+
     [SerializeField] private float RotationThreshold;
     public bool xRotationConstant;
     public bool yRotationConstant;
     public bool zRotationConstant;
 
+    public float CutSpeedThreshold;
 
-    [Header("Raycast")]
-    [SerializeField] private VisualEffect vfx;
-    [SerializeField] private Transform rayCastStart;
-    [SerializeField] private Transform rayCastEnd;
-    [SerializeField] private Vector3 rayCastDir;
-
+    [SerializeField] XRBaseController RightController;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //cutPlane.gameObject.SetActive(false);
+
+        particles = cutPlane.GetComponentsInChildren<ParticleSystem>();
     }
 
     void Update()
     {
         if(BladeInside)
         {
+            TriggerHaptic(RightController);
             Slowdown = true;
         } else {
             Slowdown = false;
         }
-
-        rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
-        float raysCastDistance = Vector3.Distance (rayCastStart.transform.position, rayCastEnd.transform.position);
-        bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance);
-
-        if(bladeRaycast)
+        if (Input.GetMouseButtonDown(1))
         {
-            vfx.gameObject.SetActive(true);
-            vfx.transform.position = hit.point;
+            Zoom(true);
         }
-        else
+
+        if (Input.GetMouseButtonUp(1))
         {
-            vfx.gameObject.SetActive(false);
+            Zoom(false);
         }
+
+        if (bladeMode)
+        {
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Slice();
+            }
+        }
+
+        Debug();
     }
 
     public void Slice()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.01f, 0.1f), cutPlane.rotation, layerMask);
 
         if (hits.Length <= 0)
             return;
@@ -107,8 +117,8 @@ public class BladeModeScript : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
-        go.GetComponent<Collider>().enabled = false;
-    
+        //go.GetComponent<Collider>().enabled = false;
+        rb.useGravity = false;
 
         StartCoroutine(Dissolve(go));
 
@@ -178,7 +188,7 @@ public class BladeModeScript : MonoBehaviour
     IEnumerator SliceCooldown(float Cooldown)
     {
         canSlice = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         canSlice = true;
         bladeHitCorrectly = false;
         bladeHitIncorrectly = false;
@@ -216,7 +226,7 @@ public class BladeModeScript : MonoBehaviour
             }
 
 
-            if(xRotationConstant && yRotationConstant && zRotationConstant)
+            if(xRotationConstant && yRotationConstant && zRotationConstant && SwordVariable.Speed > CutSpeedThreshold)
             {
                 CuttingSuccesful = true;
                 StartCoroutine(SliceAction());
@@ -240,6 +250,11 @@ public class BladeModeScript : MonoBehaviour
             CuttingSuccesful = false;
             BladeInside = false;            
         }
+    }
+
+    void TriggerHaptic(XRBaseController controller)
+    {
+        controller.SendHapticImpulse(1,0.5f);
     }
 }
 
