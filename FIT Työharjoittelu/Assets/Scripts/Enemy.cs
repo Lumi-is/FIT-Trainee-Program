@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public EnemyStatPreset StatPreset;
+    [SerializeField] private EnemyStatPreset StatPreset;
 
-    [SerializeField] Transform Player;
+    [SerializeField] private Transform Player;
 
     [SerializeField] private Vector3 SpawnPosition;
 
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-
+        
     }
     void SecondaryAttack()
     {
