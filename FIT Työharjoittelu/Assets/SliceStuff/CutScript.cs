@@ -64,9 +64,10 @@ public class BladeModeScript : MonoBehaviour
 
         rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
         float raysCastDistance = Vector3.Distance (rayCastStart.transform.position, rayCastEnd.transform.position);
+
         bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance);
 
-        if(bladeRaycast)
+        if(bladeRaycast && hit.transform.CompareTag("CutVFX"))
         {
             vfx.gameObject.SetActive(true);
             vfx.transform.position = hit.point;
@@ -79,7 +80,7 @@ public class BladeModeScript : MonoBehaviour
 
     public void Slice()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.01f, 0.1f), cutPlane.rotation, layerMask);
 
         if (hits.Length <= 0)
             return;
@@ -107,8 +108,7 @@ public class BladeModeScript : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
-        go.GetComponent<Collider>().enabled = false;
-    
+        rb.useGravity = false;
 
         StartCoroutine(Dissolve(go));
 
