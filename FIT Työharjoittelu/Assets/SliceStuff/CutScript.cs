@@ -75,6 +75,8 @@ public class BladeModeScript : MonoBehaviour
         {
             vfx.gameObject.SetActive(true);
             vfx.transform.position = hit.point;
+            Vector3 hitNormal = hit.normal;
+            vfx.SetVector3("hitNormal", hitNormal);
         }
         else
         {
