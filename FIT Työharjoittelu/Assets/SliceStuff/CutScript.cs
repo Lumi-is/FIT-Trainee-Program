@@ -254,7 +254,7 @@ public class BladeModeScript : MonoBehaviour
 
     void TriggerHaptic(XRBaseController controller)
     {
-        controller.SendHapticImpulse(1,0.5f);
+        controller.SendHapticImpulse(1,0.1f);
     }
 }
 
