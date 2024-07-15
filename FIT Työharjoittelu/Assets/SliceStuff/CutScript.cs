@@ -67,7 +67,7 @@ public class BladeModeScript : MonoBehaviour
 
         bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance);
 
-        if(bladeRaycast && hit.transform.CompareTag("CutVFX"))
+        if(bladeRaycast && ((layerMask.value & 1<< hit.transform.gameObject.layer) != 0<<hit.transform.gameObject.layer))
         {
             vfx.gameObject.SetActive(true);
             vfx.transform.position = hit.point;
