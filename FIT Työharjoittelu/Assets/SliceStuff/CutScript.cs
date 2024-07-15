@@ -240,7 +240,19 @@ public class BladeModeScript : MonoBehaviour
         {
             if(CuttingSuccesful)
             {
-               Slice(); 
+                if(other.gameObject.GetComponent<Enemy>() != null)
+                {
+                    Enemy enemy = other.gameObject.GetComponent<Enemy>();
+                    if(enemy.canSlice)
+                    {
+                        Slice();
+                    } else {
+                        enemy.TakeDamage(20);
+                    }      
+                } else {
+                    Slice();
+                }
+                           
             } 
 
             CuttingSuccesful = false;
