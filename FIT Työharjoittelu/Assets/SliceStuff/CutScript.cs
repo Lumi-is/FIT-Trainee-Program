@@ -125,10 +125,10 @@ public class BladeModeScript : MonoBehaviour
 
     IEnumerator Dissolve(GameObject go)
     {
-        float t = -1f;
-        while(t < 2)
+        float t = 1.7f;
+        while(t > 0)
         {
-            t += Time.deltaTime;
+            t -= Time.deltaTime;
             if(go != null)
                 go.GetComponent<Renderer>().material.SetFloat("_DissolveTime",t);
             yield return null;
