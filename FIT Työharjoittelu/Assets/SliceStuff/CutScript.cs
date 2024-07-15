@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using EzySlice;
 using UnityEngine.VFX;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class BladeModeScript : MonoBehaviour
     public bool yRotationConstant;
     public bool zRotationConstant;
 
+    [SerializeField] XRBaseController RightController;
+
 
     [Header("Raycast")]
     [SerializeField] private VisualEffect vfx;
@@ -57,6 +60,7 @@ public class BladeModeScript : MonoBehaviour
     {
         if(BladeInside)
         {
+            RightController.SendHapticImpulse(1,0.1f);
             Slowdown = true;
         } else {
             Slowdown = false;
