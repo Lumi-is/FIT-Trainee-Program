@@ -2,8 +2,7 @@ using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
-using UnityEngine.Rendering;
-using NUnit.Framework;
+using UnityEngine.VFX;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -19,7 +18,6 @@ public class BladeModeScript : MonoBehaviour
     public Material newMat;
 
     public LayerMask layerMask;
-    ParticleSystem[] particles;
 
     public bool bladeHitCorrectly;
 
@@ -40,13 +38,19 @@ public class BladeModeScript : MonoBehaviour
     public bool yRotationConstant;
     public bool zRotationConstant;
 
+
+    [Header("Raycast")]
+    [SerializeField] private VisualEffect vfx;
+    [SerializeField] private Transform rayCastStart;
+    [SerializeField] private Transform rayCastEnd;
+    [SerializeField] private Vector3 rayCastDir;
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //cutPlane.gameObject.SetActive(false);
-
-        particles = cutPlane.GetComponentsInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -57,26 +61,20 @@ public class BladeModeScript : MonoBehaviour
         } else {
             Slowdown = false;
         }
-        if (Input.GetMouseButtonDown(1))
+
+        rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
+        float raysCastDistance = Vector3.Distance (rayCastStart.transform.position, rayCastEnd.transform.position);
+        bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance);
+
+        if(bladeRaycast)
         {
-            Zoom(true);
+            vfx.gameObject.SetActive(true);
+            vfx.transform.position = hit.point;
         }
-
-        if (Input.GetMouseButtonUp(1))
+        else
         {
-            Zoom(false);
+            vfx.gameObject.SetActive(false);
         }
-
-        if (bladeMode)
-        {
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                Slice();
-            }
-        }
-
-        Debug();
     }
 
     public void Slice()
@@ -110,6 +108,7 @@ public class BladeModeScript : MonoBehaviour
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
         go.GetComponent<Collider>().enabled = false;
+    
 
         StartCoroutine(Dissolve(go));
 
