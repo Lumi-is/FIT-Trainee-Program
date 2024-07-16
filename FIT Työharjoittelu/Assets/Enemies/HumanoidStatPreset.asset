@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefabName: Humanoid
   canDodge: 1
-  dodgeDistance: 500
+  dodgeDistance: 200
   MaxHP: 100
   HP: 100
   MaxDamageTaken: 40
+  blockDamage: 10
   Speed: 1
   AttackSpeed: 1
   isActiveAtSpawn: 1

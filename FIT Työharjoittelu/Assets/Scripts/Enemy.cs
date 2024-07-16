@@ -13,10 +13,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float EnemyAttackThreshold;
 
     [SerializeField] private Rigidbody rb;
-    public float HP;
 
+    [SerializeField] private EnemySword enemySword;
+    public float HP;
     public bool canSlice;
     public bool isStunned;
+    public bool isStaggered;
+
+    private bool attackActive;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +35,11 @@ public class Enemy : MonoBehaviour
         if(Vector3.Distance(Player.position, transform.position) > EnemyAttackThreshold)
         {
             RunTowards();
-        } else {
-            Attack();
+        } else if(!attackActive){
+            StartCoroutine(Attack());
         }
 
-        if(HP < 33)
+        if(HP < 10 || isStaggered)
         {
             canSlice = true;
         } else {
@@ -48,8 +52,7 @@ public class Enemy : MonoBehaviour
         if(!isStunned)
         {
             rb.velocity = (Player.position - transform.position).normalized * StatPreset.Speed;
-        }
-        
+        }  
     }
 
     void StepBack()
@@ -61,21 +64,25 @@ public class Enemy : MonoBehaviour
         }    
     }
 
-    void Attack()
+    IEnumerator Attack()
     {
-        
+        attackActive = true;
+        //Do basic hit from randomized direction with the speed of preset attribute attackSpeed
+        yield return null; 
+        attackActive = false;
     }
-    void SecondaryAttack()
-    {
 
-    }
-
-    public void TakeDamage(float TakenDamage)
+    public void TakeDamage(float TakenDamage, float StunDuration)
     {
         Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
         HP = HP - TakenDamage;
         StepBack();
-        StartCoroutine(Stun(1));
+        StartCoroutine(Stun(StunDuration));
+    }
+
+    public void AttackBlocked()
+    {
+        HP =- StatPreset.blockDamage;
     }
 
     IEnumerator Stun(float stunDuration)

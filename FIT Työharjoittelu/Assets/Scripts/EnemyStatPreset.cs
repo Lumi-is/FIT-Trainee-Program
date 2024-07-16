@@ -12,6 +12,7 @@ public class EnemyStatPreset : ScriptableObject
     public float MaxHP;
     public float HP;
     public float MaxDamageTaken;
+    public float blockDamage;
     public float Speed;
     public float AttackSpeed;
     public bool isActiveAtSpawn;

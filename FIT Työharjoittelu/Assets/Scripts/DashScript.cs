@@ -71,7 +71,7 @@ public class Dashing : MonoBehaviour
 
         Vector3 direction = new Vector3();
 
-        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.y, 0);
+        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.y +90, 0);
 
         direction = yRot * new Vector3(moveInput.x,0,moveInput.y).normalized;
 
