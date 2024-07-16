@@ -87,7 +87,7 @@ public class BladeModeScript : MonoBehaviour
 
     public void Slice()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.01f, 0.1f), cutPlane.rotation, layerMask);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.2f, 0.01f, 0.2f), cutPlane.rotation, layerMask);
 
         if (hits.Length <= 0)
             return;
@@ -126,10 +126,10 @@ public class BladeModeScript : MonoBehaviour
 
     IEnumerator Dissolve(GameObject go)
     {
-        float t = 1.7f;
-        while(t > 0)
+        float t = -1.5f;
+        while(t < 2)
         {
-            t -= Time.deltaTime;
+            t += Time.deltaTime;
             if(go != null)
                 go.GetComponent<Renderer>().material.SetFloat("_DissolveTime",t);
             yield return null;

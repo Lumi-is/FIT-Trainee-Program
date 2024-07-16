@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(Attack());
         }
 
-        if(HP < 10 || isStaggered)
+        if(HP < 33 || isStaggered)
         {
             canSlice = true;
         } else {

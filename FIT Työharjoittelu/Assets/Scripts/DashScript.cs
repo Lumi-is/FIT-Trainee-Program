@@ -74,7 +74,7 @@ public class Dashing : MonoBehaviour
         float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
         Quaternion angleQ = Quaternion.Euler(0, angle, 0);
 
-        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.y, 0);
+        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.eulerAngles.y, 0);
         Vector3 forwardRot = yRot * Vector3.forward;
 
         direction = angleQ * forwardRot;
