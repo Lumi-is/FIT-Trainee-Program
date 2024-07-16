@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefabName: Humanoid
   canDodge: 1
-  dodgeDistance: 300
+  dodgeDistance: 500
   MaxHP: 100
   HP: 100
   MaxDamageTaken: 40
