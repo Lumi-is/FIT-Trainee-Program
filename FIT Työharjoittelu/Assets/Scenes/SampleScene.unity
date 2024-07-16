@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 124615184}
   - component: {fileID: 124615183}
   - component: {fileID: 124615182}
+  - component: {fileID: 124615185}
   m_Layer: 0
   m_Name: XR Origin (XR Rig)
   m_TagString: Untagged
@@ -376,6 +377,28 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
+--- !u!114 &124615185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124615178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb975d6bf075bc241956058fe5508f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCam: {fileID: 1962745038}
+  dashForce: 3
+  dashUpwardForce: 1
+  maxDashYSpeed: 5
+  dashDuration: 0.6
+  resetVel: 1
+  dashCd: 0.5
+  leftHandStick: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  buttonA: {fileID: 7525216989518027014, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &145837144
 GameObject:
   m_ObjectHideFlags: 0
