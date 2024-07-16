@@ -43,7 +43,7 @@ public class Dashing : MonoBehaviour
         if (dashCdTimer > 0) return;
         else dashCdTimer = dashCd;
 
-        Transform forwardT = playerCam; 
+        Transform forwardT = playerCam;
 
         Vector3 direction = GetDirection(forwardT);
 
@@ -71,9 +71,13 @@ public class Dashing : MonoBehaviour
 
         Vector3 direction = new Vector3();
 
-        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.y +90, 0);
+        float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+        Quaternion angleQ = Quaternion.Euler(0, angle, 0);
 
-        direction = yRot * new Vector3(moveInput.x,0,moveInput.y).normalized;
+        Quaternion yRot = Quaternion.Euler(0, forwardT.rotation.y, 0);
+        Vector3 forwardRot = yRot * Vector3.forward;
+
+        direction = angleQ * forwardRot;
 
         return direction;
     }
