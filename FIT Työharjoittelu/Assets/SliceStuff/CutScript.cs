@@ -82,6 +82,7 @@ public class BladeModeScript : MonoBehaviour
         {
             vfx.gameObject.SetActive(false);
         }
+        
     }
 
     public void Slice()
