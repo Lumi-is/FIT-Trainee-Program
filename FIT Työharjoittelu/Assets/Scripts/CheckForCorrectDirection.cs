@@ -14,10 +14,10 @@ public class CheckForCorrectDirection : MonoBehaviour
         {
             if(CutScript.bladeHitCorrectly){
                 CutScript.StartSlicing();
-                CutScript.StartSliceCooldown(0.2f);
+                CutScript.StartSliceCooldown(0.1f);
             } else {
                 CutScript.bladeHitIncorrectly = true;
-                CutScript.StartSliceCooldown(1f); 
+                CutScript.StartSliceCooldown(0.1f); 
             }
         }
     }

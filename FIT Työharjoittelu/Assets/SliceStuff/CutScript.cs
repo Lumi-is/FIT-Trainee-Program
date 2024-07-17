@@ -4,6 +4,7 @@ using UnityEngine;
 using EzySlice;
 using UnityEngine.VFX;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEditor.Rendering;
 
 public class BladeModeScript : MonoBehaviour
 {
@@ -34,10 +35,15 @@ public class BladeModeScript : MonoBehaviour
 
     private bool CuttingSuccesful;
 
-    [SerializeField] private float RotationThreshold;
-    public bool xRotationConstant;
-    public bool yRotationConstant;
-    public bool zRotationConstant;
+
+    //[SerializeField] private float RotationThreshold;
+    //public bool xRotationConstant;
+    //public bool yRotationConstant;
+    //public bool zRotationConstant;
+
+    [SerializeField] SwordVariables swordVariables;
+
+    public float speedThreshold;
 
     [SerializeField] XRBaseController RightController;
 
@@ -58,7 +64,7 @@ public class BladeModeScript : MonoBehaviour
 
     void Update()
     {
-        if(BladeInside)
+        if(BladeInside && CuttingSuccesful)
         {
             RightController.SendHapticImpulse(1,0.1f);
             Slowdown = true;
@@ -73,21 +79,21 @@ public class BladeModeScript : MonoBehaviour
 
         if(bladeRaycast && ((layerMask.value & 1<< hit.transform.gameObject.layer) != 0<<hit.transform.gameObject.layer))
         {
-            vfx.gameObject.SetActive(true);
+            vfx.SetBool("canSpawn",true);
             vfx.transform.position = hit.point;
             Vector3 hitNormal = hit.normal;
             vfx.SetVector3("hitNormal", hitNormal);
         }
         else
         {
-            vfx.gameObject.SetActive(false);
+            vfx.SetBool("canSpawn",false);
         }
         
     }
 
     public void Slice()
     {
-        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.2f, 0.01f, 0.2f), cutPlane.rotation, layerMask);
+        Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.5f, 0.01f, 0.5f), cutPlane.rotation, layerMask);
 
         if (hits.Length <= 0)
             return;
@@ -172,7 +178,7 @@ public class BladeModeScript : MonoBehaviour
             if(!bladeHitIncorrectly){
                 bladeHitCorrectly = true;
             } else {
-                StartCoroutine(SliceCooldown(1));
+                StartCoroutine(SliceCooldown(0.1f));
             }
         }
     }
@@ -185,7 +191,7 @@ public class BladeModeScript : MonoBehaviour
     IEnumerator SliceCooldown(float Cooldown)
     {
         canSlice = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(Cooldown);
         canSlice = true;
         bladeHitCorrectly = false;
         bladeHitIncorrectly = false;
@@ -200,37 +206,13 @@ public class BladeModeScript : MonoBehaviour
 
     IEnumerator SliceAction()
     {
-        if(BladeInside)
+        if(swordVariables.Speed > speedThreshold)
         {
-            yield return null;
-            if(transform.rotation.x < RememberRotation.x + RotationThreshold && transform.rotation.x > RememberRotation.x - RotationThreshold)
-            {
-                xRotationConstant = true;
-            } else {
-                xRotationConstant = false;
-            }
-            if(transform.rotation.y < RememberRotation.y + RotationThreshold && transform.rotation.y > RememberRotation.y - RotationThreshold)
-            {
-                yRotationConstant = true;
-            } else {
-                yRotationConstant = false;
-            }
-            if(transform.rotation.z < RememberRotation.z + RotationThreshold && transform.rotation.z > RememberRotation.z - RotationThreshold)
-            {
-                zRotationConstant = true;
-            } else {
-                zRotationConstant = false;
-            }
-
-
-            if(xRotationConstant && yRotationConstant && zRotationConstant)
-            {
-                CuttingSuccesful = true;
-                StartCoroutine(SliceAction());
-            } else {
-                CuttingSuccesful = false;
-            }
+            CuttingSuccesful = true;
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(SliceAction());
         } else {
+            CuttingSuccesful = false;
             yield break;
         }
     }

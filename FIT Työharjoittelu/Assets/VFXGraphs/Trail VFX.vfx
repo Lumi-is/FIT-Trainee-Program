@@ -2410,9 +2410,9 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615409}
       inputSlot: {fileID: 8926484042661614856}
-    position: {x: 874, y: 935}
+    position: {x: 874, y: 923}
     expandedSlots: []
-    expanded: 0
+    expanded: 1
 --- !u!114 &8926484042661615409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,7 +2490,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615413}
       inputSlot: {fileID: 8926484042661614855}
-    position: {x: 871, y: 975}
+    position: {x: 874, y: 1006}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615413
@@ -2822,7 +2822,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: True
+      m_SerializableObject: False
     m_Space: -1
   m_Property:
     name: _vfx_enabled

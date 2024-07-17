@@ -14,6 +14,8 @@ public class SwordVariables : MonoBehaviour
     [SerializeField] private float TrailSpeedThreshold;
     [SerializeField] VisualEffect Trail;
 
+    bool TrailKillDelayActive = false;
+
     void Start()
     {
         Frame1Pos = transform.position;
@@ -33,9 +35,11 @@ public class SwordVariables : MonoBehaviour
         if(Speed > TrailSpeedThreshold)
         {
             Trail.SetBool("canSpawn",true);
-        } else {
-            Trail.SetBool("canSpawn",false);
+        } else if(!TrailKillDelayActive){
+            StartCoroutine(TrailKillDelay());
         }
+
+        
 
         //PosDifference = Frame2Pos - Frame1Pos;
 
@@ -49,5 +53,16 @@ public class SwordVariables : MonoBehaviour
         //{
         //    trail.SetBool("canSpawn", false);
         //}
+    }
+
+    IEnumerator TrailKillDelay()
+    {
+        TrailKillDelayActive = true;
+        yield return new WaitForSeconds(1);
+        if(Speed < TrailSpeedThreshold)
+        {
+            Trail.SetBool("canSpawn",false);
+        }
+        TrailKillDelayActive = false;
     }
 }

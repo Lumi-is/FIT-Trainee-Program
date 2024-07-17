@@ -84,6 +84,10 @@ public class Enemy : MonoBehaviour
     {
         HP =- StatPreset.blockDamage;
     }
+    public void StunPublic(float stunDuration)
+    {
+        StartCoroutine(Stun(stunDuration));
+    }
 
     IEnumerator Stun(float stunDuration)
     {
