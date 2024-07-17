@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CutVFX
   - Enemy
+  - PlayerKatana
   layers:
   - Default
   - TransparentFX

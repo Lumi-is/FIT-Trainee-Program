@@ -73,14 +73,14 @@ public class BladeModeScript : MonoBehaviour
 
         if(bladeRaycast && ((layerMask.value & 1<< hit.transform.gameObject.layer) != 0<<hit.transform.gameObject.layer))
         {
-            vfx.gameObject.SetActive(true);
+            vfx.SetBool("canSpawn",true);
             vfx.transform.position = hit.point;
             Vector3 hitNormal = hit.normal;
             vfx.SetVector3("hitNormal", hitNormal);
         }
         else
         {
-            vfx.gameObject.SetActive(false);
+            vfx.SetBool("canSpawn",false);
         }
         
     }
