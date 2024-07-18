@@ -127,7 +127,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StatPreset: {fileID: 11400000, guid: 7a1fa7c3e8920d346943b5d99b7d0ef0, type: 2}
   player: {fileID: 0}
-  SpawnPosition: {x: 0, y: 0, z: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   rb: {fileID: 4367237294031539622}
   agent: {fileID: 7702907014040966035}
   HP: 0
@@ -137,10 +139,10 @@ MonoBehaviour:
   enemySword: {fileID: 0}
   readyToAttack: 1
   attacking: 0
-  approachRange: 0
+  approachRange: 1
   attackRange: 2
-  chaseSpeed: 0
-  approachSpeed: 0
+  chaseSpeed: 1
+  approachSpeed: 1
   anim: {fileID: 8459142181637300297}
 --- !u!54 &4367237294031539622
 Rigidbody:

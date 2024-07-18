@@ -4,14 +4,12 @@ using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.XR.CoreUtils;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyStatPreset StatPreset;
-    [SerializeField] private Transform player;
-    [SerializeField] private Vector3 SpawnPosition;
-
-    [SerializeField] private Transform groundCheck;
+    public Transform player;
     public LayerMask layerMask;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
@@ -39,16 +37,13 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         HP = StatPreset.MaxHP;
-        //transform.position = SpawnPosition;
-
-        //enemySwordCollider = enemySword.GetComponent<Collider>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
-        //player = Player[0].transform;
+        player = FindAnyObjectByType<XROrigin>().transform;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         if(distanceToPlayer > approachRange && !attacking)
@@ -164,11 +159,8 @@ public class Enemy : MonoBehaviour
 
     void EnableAgent()
     {
-        
         agent.enabled = true;
         rb.isKinematic = true;
-        
-        
     }
     void DisableAgent()
     {
