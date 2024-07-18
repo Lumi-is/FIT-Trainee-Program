@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab650036733ab36448a1257fb4925631, type: 3}
   m_Name: Average
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 4197231759648516449, guid: 4545a85393c3f934aab4f0caf5282464, type: 3}
+  Prefab: {fileID: 7567268759517845028, guid: 7f539ea2687d8f1438f17de55ce2d7a2, type: 3}
   canDodge: 1
   dodgeDistance: 200
   MaxHP: 150

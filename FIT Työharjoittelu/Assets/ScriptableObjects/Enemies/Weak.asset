@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab650036733ab36448a1257fb4925631, type: 3}
   m_Name: Weak
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 8984999298248282645, guid: 89073d33e9d704d499319e8820acc645, type: 3}
+  Prefab: {fileID: 7567268759517845028, guid: 777ec0abe85d19a41a9382ce4ab543e4, type: 3}
   canDodge: 1
   dodgeDistance: 300
   MaxHP: 100

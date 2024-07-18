@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyStatPreset StatPreset;
     [SerializeField] private Transform player;
     [SerializeField] private Vector3 SpawnPosition;
+
+    [SerializeField] private Transform groundCheck;
+    public LayerMask layerMask;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
 
@@ -44,6 +47,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
+        //player = Player[0].transform;
+
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         if(distanceToPlayer > approachRange && !attacking)
         {
@@ -141,13 +147,14 @@ public class Enemy : MonoBehaviour
         {
             DisableAgent();
             Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
-            rb.AddForce(dodgeStep);
+            rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
             Invoke(nameof(EnableAgent), 0.5f);
         }
     }
 
     IEnumerator Stun(float stunDuration)
     {
+        anim.Play("Stun");
         isStunned = true;
         anim.SetBool("IsStunned",true);
         yield return new WaitForSeconds(stunDuration);
@@ -157,8 +164,11 @@ public class Enemy : MonoBehaviour
 
     void EnableAgent()
     {
+        
         agent.enabled = true;
         rb.isKinematic = true;
+        
+        
     }
     void DisableAgent()
     {
