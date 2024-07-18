@@ -5,9 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyStatPreset", menuName = "Enemy/NewEnemyStatPreset")]
 public class EnemyStatPreset : ScriptableObject
 {
-    public string PrefabName;
+    public GameObject Prefab;
     public bool canDodge;
-
     public float dodgeDistance;
     public float MaxHP;
     public float HP;

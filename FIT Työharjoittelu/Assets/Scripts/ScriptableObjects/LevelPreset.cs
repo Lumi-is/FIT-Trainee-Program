@@ -9,4 +9,7 @@ public class LevelPreset : ScriptableObject
     public int weakEnemyAmount;
     public int avgEnemyAmount;
     public int strongEnemyAmount;
+
+    public int MaxConcurrentEnemies;
+    public float enemySpawnCooldown;
 }

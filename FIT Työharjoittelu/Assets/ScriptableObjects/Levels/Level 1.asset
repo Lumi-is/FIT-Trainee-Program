@@ -16,3 +16,5 @@ MonoBehaviour:
   weakEnemyAmount: 3
   avgEnemyAmount: 1
   strongEnemyAmount: 0
+  MaxConcurrentEnemies: 2
+  enemySpawnCooldown: 2
