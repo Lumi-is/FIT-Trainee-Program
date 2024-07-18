@@ -3994,7 +3994,10 @@ MonoBehaviour:
   enemySword: {fileID: 0}
   readyToAttack: 1
   attacking: 0
+  approachRange: 0
   attackRange: 2
+  chaseSpeed: 0
+  approachSpeed: 0
   anim: {fileID: 1951092341}
 --- !u!54 &1951092340
 Rigidbody:
