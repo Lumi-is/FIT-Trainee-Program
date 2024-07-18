@@ -52,7 +52,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolveTime: -1.78
+    - _DissolveTime: -0.83
     - _EdgeWidth: 0.05
     - _NoiseScale: 30
     - _QueueControl: 0

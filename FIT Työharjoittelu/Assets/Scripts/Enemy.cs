@@ -140,18 +140,20 @@ public class Enemy : MonoBehaviour
     {
         if(StatPreset.canDodge)
         {
+            CancelInvoke(nameof(EnableAgent));
             DisableAgent();
             Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
+            rb.velocity = Vector3.zero;
             rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
-            Invoke(nameof(EnableAgent), 0.5f);
+            Invoke(nameof(EnableAgent), 1f);
         }
     }
 
     IEnumerator Stun(float stunDuration)
     {
+        
         anim.Play("Stun");
         isStunned = true;
-        anim.SetBool("IsStunned",true);
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;
         anim.SetBool("IsStunned",false);

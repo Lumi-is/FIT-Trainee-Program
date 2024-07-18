@@ -230,7 +230,7 @@ public class BladeModeScript : MonoBehaviour
                     {
                         Slice();
                     } else {
-                        enemy.TakeDamage(20, 0);
+                        enemy.TakeDamage(20, 1);
                     }      
                 } else {
                     Slice();

@@ -16,7 +16,7 @@ public class PowerFist : MonoBehaviour
 
     public bool canAttack;
 
-    [Range(0,1)]
+    [Range(0,100)]
     [SerializeField] float HitForce;
 
     // Start is called before the first frame update

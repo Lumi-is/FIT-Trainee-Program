@@ -1996,7 +1996,7 @@ MonoBehaviour:
   speedThreshold: 5
   isCharged: 0
   canAttack: 0
-  HitForce: 0.3
+  HitForce: 1
 --- !u!65 &1195385888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2417,37 +2417,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1722115592
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1722115593}
-  m_Layer: 0
-  m_Name: EnemyParent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1722115593
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722115592}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.0784907, y: -18.589296, z: 17.177723}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1785703445
 GameObject:
   m_ObjectHideFlags: 0
@@ -3288,9 +3257,9 @@ MonoBehaviour:
   avgEnemyStats: {fileID: 11400000, guid: 7a1fa7c3e8920d346943b5d99b7d0ef0, type: 2}
   strongEnemyStats: {fileID: 11400000, guid: 2f1aaf3340f1b2e4a9837afa02cab594, type: 2}
   Player: {fileID: 1194579068}
-  enemyParent: {fileID: 1722115593}
   minDistanceFromPlayer: 5
   maxDistanceFromPlayer: 10
+  sortmode: 0
 --- !u!4 &1824941862
 Transform:
   m_ObjectHideFlags: 0
@@ -3366,4 +3335,3 @@ SceneRoots:
   - {fileID: 1595866332}
   - {fileID: 1345046414}
   - {fileID: 540252914}
-  - {fileID: 1722115593}

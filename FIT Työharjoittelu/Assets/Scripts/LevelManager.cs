@@ -5,6 +5,7 @@ using System;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using NUnit.Framework.Constraints;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,10 +15,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] EnemyStatPreset strongEnemyStats;
     [SerializeField] Transform Player;
 
-    [SerializeField] Transform enemyParent;
-
     [SerializeField] float minDistanceFromPlayer;
     [SerializeField] float maxDistanceFromPlayer;
+    [SerializeField] FindObjectsSortMode sortmode;
 
     int NumberOfEnemiesInScene;
 
@@ -54,12 +54,13 @@ public class LevelManager : MonoBehaviour
     {
         int RandomOffset = UnityEngine.Random.Range(-2,3);
         Vector3 SpawnPos = Player.position + Player.forward * UnityEngine.Random.Range(minDistanceFromPlayer,maxDistanceFromPlayer+1) + Vector3.right * RandomOffset;
-        Instantiate(EnemyType, new Vector3(SpawnPos.x, 1, SpawnPos.z), Quaternion.identity, enemyParent);
+        Instantiate(EnemyType, new Vector3(SpawnPos.x, 1, SpawnPos.z), Quaternion.identity);
     }
 
     private IEnumerator EnemySpawning(GameObject[] LevelEnemies)
     {
-        NumberOfEnemiesInScene = enemyParent.childCount;
+        var EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        NumberOfEnemiesInScene = EnemyList.Length;
 
         if(NumberOfEnemiesInScene < CurrentLevelStat.MaxConcurrentEnemies)
         {
