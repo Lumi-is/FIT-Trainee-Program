@@ -178,7 +178,7 @@ public class BladeModeScript : MonoBehaviour
             if(!bladeHitIncorrectly){
                 bladeHitCorrectly = true;
             } else {
-                StartCoroutine(SliceCooldown(0.1f));
+                StartCoroutine(SliceCooldown(0.2f));
             }
         }
     }
@@ -230,7 +230,7 @@ public class BladeModeScript : MonoBehaviour
                     {
                         Slice();
                     } else {
-                        enemy.TakeDamage(20, 1);
+                        enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
                     }      
                 } else {
                     Slice();

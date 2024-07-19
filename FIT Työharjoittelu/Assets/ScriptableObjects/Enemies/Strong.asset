@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Strong
   m_EditorClassIdentifier: 
   Prefab: {fileID: 7567268759517845028, guid: c007f6ac2e41fde4ba81763043e88081, type: 3}
-  canDodge: 0
-  dodgeDistance: 0
+  canDodge: 1
+  dodgeDistance: 50
   MaxHP: 300
   HP: 300
   MaxDamageTaken: 50

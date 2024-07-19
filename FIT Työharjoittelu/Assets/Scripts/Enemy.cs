@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +9,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyStatPreset StatPreset;
     public Transform player;
-    public LayerMask layerMask;
+    [SerializeField] EnemyGroundCheck enemyGroundCheck;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
 
@@ -28,6 +27,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private float approachSpeed;
+    [SerializeField] private bool isGrounded = true;
 
 
     [Header("State Machine")]
@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isGrounded = enemyGroundCheck.isGrounded;
         player = FindAnyObjectByType<XROrigin>().transform;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
@@ -129,14 +130,25 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void TakeDamage(float TakenDamage, float StunDuration)
+    public void TakeDamage(float TakenDamage, float StunDuration, bool swordKb, Vector3 hitDir)
     {
         Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
         HP = HP - TakenDamage;
-        KnockBack();
+        KnockBack(swordKb, hitDir);
         StartCoroutine(Stun(StunDuration));
     }
-    void KnockBack()
+
+    void KnockBack(bool swordKb, Vector3 kbDirection)
+    {
+        if(swordKb)
+        {
+            SwordKnockBack();
+        } else {
+            FistKnockBack(kbDirection);
+        }
+    }
+
+    void SwordKnockBack()
     {
         if(StatPreset.canDodge)
         {
@@ -149,6 +161,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void FistKnockBack(Vector3 kbDirection)
+    {
+        CancelInvoke(nameof(EnableAgent));
+        DisableAgent();
+        rb.velocity = Vector3.zero;
+        rb.AddForce(kbDirection);
+        Invoke(nameof(EnableAgent), 1f);
+    }
+
     IEnumerator Stun(float stunDuration)
     {
         
@@ -159,11 +180,24 @@ public class Enemy : MonoBehaviour
         anim.SetBool("IsStunned",false);
     }
 
+    IEnumerator AgentGroundCheck()
+    {
+        if(isGrounded)
+        {
+            agent.enabled = true;
+            rb.isKinematic = true;
+            yield break;
+        } else {
+            yield return null;
+            StartCoroutine(AgentGroundCheck());
+        }     
+    }
+
     void EnableAgent()
     {
-        agent.enabled = true;
-        rb.isKinematic = true;
+        StartCoroutine(AgentGroundCheck());
     }
+
     void DisableAgent()
     {
         agent.enabled = false;

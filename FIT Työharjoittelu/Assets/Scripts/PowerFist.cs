@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PowerFist : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PowerFist : MonoBehaviour
 
     [Range(0,100)]
     [SerializeField] float HitForce;
+
+    [SerializeField] XRBaseController controller;
 
     // Start is called before the first frame update
     void Start()
@@ -53,8 +56,8 @@ public class PowerFist : MonoBehaviour
         {
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
-            rb.velocity = HitDirection.normalized * Speed * HitForce;
-            enemy.TakeDamage(100, Speed);
+            controller.SendHapticImpulse(1,0.5f);
+            enemy.TakeDamage(100, Speed, false, HitDirection.normalized * HitForce * Speed);
         }
     }
 }
