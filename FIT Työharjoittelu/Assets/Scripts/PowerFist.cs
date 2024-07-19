@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class PowerFist : MonoBehaviour
@@ -21,12 +22,14 @@ public class PowerFist : MonoBehaviour
     [SerializeField] float HitForce;
 
     [SerializeField] XRBaseController controller;
+    [SerializeField] VisualEffect PunchImpactVFX;
 
     // Start is called before the first frame update
     void Start()
     {
         //Debug
         isCharged = true;
+        PunchImpactVFX.enabled = false;
     }
 
     // Update is called once per frame
@@ -38,6 +41,7 @@ public class PowerFist : MonoBehaviour
         } else {
             canAttack = false;
         }
+
     }
 
     void FixedUpdate()
@@ -58,6 +62,17 @@ public class PowerFist : MonoBehaviour
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             controller.SendHapticImpulse(1,0.5f);
             enemy.TakeDamage(100, Speed, false, HitDirection.normalized * HitForce * Speed);
+
+            PunchImpactVFX.transform.LookAt(col.gameObject.transform);
+            StartCoroutine(PlayPunchImpactVFX());
         }
+    }
+
+    IEnumerator PlayPunchImpactVFX()
+    {
+        PunchImpactVFX.enabled = true;
+        PunchImpactVFX.SendEvent("Play");
+        yield return new WaitForSeconds(2);
+        PunchImpactVFX.enabled = false;
     }
 }
