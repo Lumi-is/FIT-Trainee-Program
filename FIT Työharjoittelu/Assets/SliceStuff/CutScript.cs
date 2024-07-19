@@ -83,6 +83,9 @@ public class BladeModeScript : MonoBehaviour
             vfx.transform.position = hit.point;
             Vector3 hitNormal = hit.normal;
             vfx.SetVector3("hitNormal", hitNormal);
+
+            Quaternion quaternion = Quaternion.FromToRotation(Vector3.forward, hitNormal);
+            vfx.SetVector3("hitNormalAngle", new Vector3(quaternion.eulerAngles.x, quaternion.eulerAngles.y, quaternion.eulerAngles.z));
         }
         else
         {
