@@ -10,7 +10,7 @@ public class CheckForCorrectDirection : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if((CutScript.layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && CutScript.canSlice)
+        if((CutScript.layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && CutScript.canAttack)
         {
             if(CutScript.bladeHitCorrectly){
                 CutScript.DoDamage(other.gameObject.GetComponent<Enemy>());
