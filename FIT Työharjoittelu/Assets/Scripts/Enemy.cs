@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         isGrounded = enemyGroundCheck.isGrounded;
-        player = FindAnyObjectByType<XROrigin>().transform;
+        player = FindAnyObjectByType<PlayerBody>().transform;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         if(distanceToPlayer > approachRange && !attacking)
@@ -86,6 +86,26 @@ public class Enemy : MonoBehaviour
 
     }
 
+<<<<<<< Updated upstream
+=======
+    public void Stun()
+    {
+
+    }
+
+    public void Stagger()
+    {
+        //agent.speed = 0;
+        canSlice = true;
+        Invoke(nameof(Regen), 5f);
+    }
+    void Regen()
+    {
+        HP = StatPreset.HP /2;
+        canSlice = false;
+    }
+
+>>>>>>> Stashed changes
     public void Chase()
     {
         agent.destination = player.position;
@@ -144,7 +164,7 @@ public class Enemy : MonoBehaviour
         {
             SwordKnockBack();
         } else {
-            FistKnockBack(kbDirection);
+            StartCoroutine(FistKnockBack(kbDirection));
         }
     }
 
@@ -167,7 +187,16 @@ public class Enemy : MonoBehaviour
         DisableAgent();
         rb.velocity = Vector3.zero;
         rb.AddForce(kbDirection);
+<<<<<<< Updated upstream
         Invoke(nameof(EnableAgent), 1f);
+=======
+
+        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForFixedUpdate();
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitForSeconds(0.1f);
+        EnableAgent();
+>>>>>>> Stashed changes
     }
 
     IEnumerator Stun(float stunDuration)
@@ -186,6 +215,10 @@ public class Enemy : MonoBehaviour
         {
             agent.enabled = true;
             rb.isKinematic = true;
+<<<<<<< Updated upstream
+=======
+            obstacle.enabled = false;
+>>>>>>> Stashed changes
             yield break;
         } else {
             yield return null;

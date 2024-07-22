@@ -25,7 +25,7 @@ public class BladeModeScript : MonoBehaviour
 
     public bool bladeHitIncorrectly;
 
-    public bool canSlice = true; 
+    public bool canAttack = true; 
 
     public bool BladeInside;
 
@@ -178,7 +178,7 @@ public class BladeModeScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canSlice && swordVariables.Speed > speedThreshold)
+        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canAttack && swordVariables.Speed > speedThreshold)
         {
             if(!bladeHitIncorrectly){
                 bladeHitCorrectly = true;
@@ -196,9 +196,9 @@ public class BladeModeScript : MonoBehaviour
 
     IEnumerator SliceCooldown(float Cooldown)
     {
-        canSlice = false;
+        canAttack = false;
         yield return new WaitForSeconds(Cooldown);
-        canSlice = true;
+        canAttack = true;
         bladeHitCorrectly = false;
         bladeHitIncorrectly = false;
     }
@@ -255,7 +255,7 @@ public class BladeModeScript : MonoBehaviour
 
     public void DoDamage(Enemy enemy)
     {
-        if(enemy.HP > 0)
+        if(enemy.HP > 0 && enemy != null)
         {
             RightController.SendHapticImpulse(1,0.2f);
             enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));

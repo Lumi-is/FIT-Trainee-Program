@@ -4709,8 +4709,7 @@ MonoBehaviour:
     m_Bits: 512
   bladeHitCorrectly: 0
   bladeHitIncorrectly: 0
-  canSlice: 1
-  Slowdown: 0
+  canAttack: 1
   BladeInside: 0
   damageSound1: {fileID: 1581432535}
   damageSound2: {fileID: 1581432537}

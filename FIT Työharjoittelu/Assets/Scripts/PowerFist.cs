@@ -64,7 +64,7 @@ public class PowerFist : MonoBehaviour
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             controller.SendHapticImpulse(1,0.5f);
-            enemy.TakeDamage(100, Speed, false, HitDirection.normalized * HitForce * Speed);
+            enemy.TakeDamage(100, 5, false, HitDirection.normalized * HitForce * Speed);
 
             PunchImpactVFX.transform.LookAt(col.gameObject.transform);
             StartCoroutine(PlayPunchImpactFX());
