@@ -25,7 +25,7 @@ public class BladeModeScript : MonoBehaviour
 
     public bool bladeHitIncorrectly;
 
-    public bool canSlice = true; 
+    public bool canAttack = true; 
 
     public bool Slowdown;
 
@@ -53,6 +53,7 @@ public class BladeModeScript : MonoBehaviour
     [SerializeField] private Transform rayCastStart;
     [SerializeField] private Transform rayCastEnd;
     [SerializeField] private Vector3 rayCastDir;
+    [SerializeField] private LayerMask ignoreSword;
 
 
     void Start()
@@ -75,9 +76,9 @@ public class BladeModeScript : MonoBehaviour
         rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
         float raysCastDistance = Vector3.Distance (rayCastStart.transform.position, rayCastEnd.transform.position);
 
-        bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance);
+        bool bladeRaycast = Physics.Raycast(rayCastStart.position, rayCastDir, out RaycastHit hit, raysCastDistance, layerMask);
 
-        if(bladeRaycast && ((layerMask.value & 1<< hit.transform.gameObject.layer) != 0<<hit.transform.gameObject.layer))
+        if(bladeRaycast)
         {
             vfx.SetBool("canSpawn",true);
             vfx.transform.position = hit.point;
@@ -172,20 +173,6 @@ public class BladeModeScript : MonoBehaviour
         }
     }
 
-    
-
-    void OnTriggerEnter(Collider other)
-    {
-        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canSlice)
-        {
-            if(!bladeHitIncorrectly){
-                bladeHitCorrectly = true;
-            } else {
-                StartCoroutine(SliceCooldown(0.2f));
-            }
-        }
-    }
-
     public void StartSliceCooldown(float Cooldown)
     {
         StartCoroutine(SliceCooldown(Cooldown));
@@ -193,9 +180,9 @@ public class BladeModeScript : MonoBehaviour
 
     IEnumerator SliceCooldown(float Cooldown)
     {
-        canSlice = false;
+        canAttack = false;
         yield return new WaitForSeconds(Cooldown);
-        canSlice = true;
+        canAttack = true;
         bladeHitCorrectly = false;
         bladeHitIncorrectly = false;
     }
@@ -220,6 +207,22 @@ public class BladeModeScript : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canAttack)
+        {
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
+            if(!bladeHitIncorrectly)
+            {
+                bladeHitCorrectly = true;
+            }
+            else
+            {
+                StartCoroutine(SliceCooldown(0.2f));
+            }
+        }
+    }
     void OnTriggerExit(Collider other)
     {
         if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
@@ -232,15 +235,17 @@ public class BladeModeScript : MonoBehaviour
                     if(enemy.canSlice)
                     {
                         Slice();
-                    } else {
-                        enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
+                    }
+                    else 
+                    {
+                        //enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
                     }      
-                } else {
+                } 
+                else 
+                {
                     Slice();
-                }
-                           
-            } 
-
+                }       
+            }
             CuttingSuccesful = false;
             BladeInside = false;            
         }

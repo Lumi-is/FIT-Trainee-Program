@@ -60,25 +60,21 @@ public class Enemy : MonoBehaviour
             //Attack();
         }
         else
-        {
             anim.SetBool("IsPlayerInAttackRange", true);
-        }
 
-        if(HP < 33 || isStaggered)
+        if(HP <= 0)
         {
+            anim.Play("Staggered");
             canSlice = true;
-        } else {
-            canSlice = false;
-        }
-
-        if(readyToAttack && !attacking && !isStunned && !isStaggered)
-        {
-            anim.SetBool("canAttack", true);
         }
         else
-        {
+            canSlice = false;
+
+        if(readyToAttack && !attacking && !isStunned && !isStaggered)
+            anim.SetBool("canAttack", true);
+        else
             anim.SetBool("canAttack", false);
-        }
+
     }
 
     void Idle()
@@ -132,53 +128,58 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float TakenDamage, float StunDuration, bool swordKb, Vector3 hitDir)
     {
-        Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
+        if(canSlice) return;
+        //Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
         HP = HP - TakenDamage;
         KnockBack(swordKb, hitDir);
-        StartCoroutine(Stun(StunDuration));
     }
 
     void KnockBack(bool swordKb, Vector3 kbDirection)
     {
         if(swordKb)
         {
-            SwordKnockBack();
+            StartCoroutine(SwordKnockBack());
         } else {
             FistKnockBack(kbDirection);
         }
     }
 
-    void SwordKnockBack()
+    private IEnumerator SwordKnockBack()
     {
-        if(StatPreset.canDodge)
-        {
-            CancelInvoke(nameof(EnableAgent));
-            DisableAgent();
-            Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
-            rb.velocity = Vector3.zero;
-            rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
-            Invoke(nameof(EnableAgent), 1f);
-        }
+        yield return null;
+        DisableAgent();
+        Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
+        rb.velocity = Vector3.zero;
+        rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitForSeconds(0.10f);
+        EnableAgent();
     }
 
-    void FistKnockBack(Vector3 kbDirection)
+    private IEnumerator FistKnockBack(Vector3 kbDirection)
     {
-        CancelInvoke(nameof(EnableAgent));
+        yield return null;
         DisableAgent();
         rb.velocity = Vector3.zero;
         rb.AddForce(kbDirection);
-        Invoke(nameof(EnableAgent), 1f);
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitForSeconds(0.10f);
+        EnableAgent();
     }
 
-    IEnumerator Stun(float stunDuration)
-    {
-        
-        anim.Play("Stun");
-        isStunned = true;
-        yield return new WaitForSeconds(stunDuration);
-        isStunned = false;
-        anim.SetBool("IsStunned",false);
-    }
+    //IEnumerator Stun(float stunDuration)
+    //{
+    //    
+    //    anim.Play("Stun");
+    //    isStunned = true;
+    //    yield return new WaitForSeconds(stunDuration);
+    //    isStunned = false;
+    //    anim.SetBool("IsStunned",false);
+    //}
 
     IEnumerator AgentGroundCheck()
     {
@@ -195,6 +196,7 @@ public class Enemy : MonoBehaviour
 
     void EnableAgent()
     {
+        rb.velocity = Vector3.zero;
         StartCoroutine(AgentGroundCheck());
     }
 
