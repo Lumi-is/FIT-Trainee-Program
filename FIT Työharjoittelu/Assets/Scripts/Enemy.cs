@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] EnemyGroundCheck enemyGroundCheck;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private NavMeshObstacle obstacle;
 
     public float HP;
     public bool canSlice;
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         HP = StatPreset.MaxHP;
-        
+        obstacle = transform.GetComponent<NavMeshObstacle>();
     }
 
     // Update is called once per frame
@@ -86,8 +87,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-<<<<<<< Updated upstream
-=======
     public void Stun()
     {
 
@@ -105,7 +104,6 @@ public class Enemy : MonoBehaviour
         canSlice = false;
     }
 
->>>>>>> Stashed changes
     public void Chase()
     {
         agent.destination = player.position;
@@ -162,46 +160,44 @@ public class Enemy : MonoBehaviour
     {
         if(swordKb)
         {
-            SwordKnockBack();
+            StartCoroutine(SwordKnockBack());
         } else {
             StartCoroutine(FistKnockBack(kbDirection));
         }
     }
 
-    void SwordKnockBack()
+    IEnumerator SwordKnockBack()
     {
-        if(StatPreset.canDodge)
-        {
-            CancelInvoke(nameof(EnableAgent));
-            DisableAgent();
-            Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
-            rb.velocity = Vector3.zero;
-            rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
-            Invoke(nameof(EnableAgent), 1f);
-        }
+        yield return null;
+
+        DisableAgent();
+        Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
+        rb.velocity = Vector3.zero;
+        rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitForSeconds(0.1f);
+        EnableAgent();
     }
 
-    void FistKnockBack(Vector3 kbDirection)
+    IEnumerator FistKnockBack(Vector3 kbDirection)
     {
-        CancelInvoke(nameof(EnableAgent));
+        yield return null;
+
         DisableAgent();
         rb.velocity = Vector3.zero;
         rb.AddForce(kbDirection);
-<<<<<<< Updated upstream
-        Invoke(nameof(EnableAgent), 1f);
-=======
 
         yield return new WaitForSeconds(0.1f);
         yield return new WaitForFixedUpdate();
         yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
         yield return new WaitForSeconds(0.1f);
         EnableAgent();
->>>>>>> Stashed changes
     }
 
     IEnumerator Stun(float stunDuration)
     {
-        
         anim.Play("Stun");
         isStunned = true;
         yield return new WaitForSeconds(stunDuration);
@@ -215,10 +211,7 @@ public class Enemy : MonoBehaviour
         {
             agent.enabled = true;
             rb.isKinematic = true;
-<<<<<<< Updated upstream
-=======
             obstacle.enabled = false;
->>>>>>> Stashed changes
             yield break;
         } else {
             yield return null;
@@ -235,5 +228,6 @@ public class Enemy : MonoBehaviour
     {
         agent.enabled = false;
         rb.isKinematic = false;
+        obstacle.enabled = true;
     }
 }
