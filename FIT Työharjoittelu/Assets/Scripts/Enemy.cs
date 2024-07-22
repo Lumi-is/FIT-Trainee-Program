@@ -106,11 +106,13 @@ public class Enemy : MonoBehaviour
 
     public void Chase()
     {
+        if(agent.enabled)
         agent.destination = player.position;
         agent.speed = chaseSpeed;
     }
     public void Approach()
     {
+        if(agent.enabled)
         agent.destination = player.position;
         agent.speed = approachSpeed;
     }

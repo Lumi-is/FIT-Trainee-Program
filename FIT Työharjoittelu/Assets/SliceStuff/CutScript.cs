@@ -15,6 +15,7 @@ public class BladeModeScript : MonoBehaviour
     public Material newMat;
 
     public LayerMask layerMask;
+    public LayerMask otherLayerMask;
 
     public bool bladeHitCorrectly;
 
@@ -162,6 +163,7 @@ public class BladeModeScript : MonoBehaviour
         }
     }
 
+
     
 
     void OnTriggerEnter(Collider other)
@@ -174,6 +176,30 @@ public class BladeModeScript : MonoBehaviour
                 StartCoroutine(SliceCooldown(0.1f));
                 //Incorrect direction cooldown
             }
+        }
+
+        if((otherLayerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
+        {
+            if(CuttingSuccesful)
+            {
+                if(other.transform.parent.gameObject.GetComponent<Enemy>() != null)
+                {
+                    Enemy enemy = other.transform.parent.gameObject.GetComponent<Enemy>();
+                    if(enemy.canSlice)
+                    {
+                        Slice();
+                        killSound.Play();
+                        dmgSoundListIndex = 0;
+                    }  
+                } else {
+                    Slice();
+                    killSound.Play();
+                    dmgSoundListIndex = 0;
+                }          
+            } 
+
+            CuttingSuccesful = false;
+            BladeInside = false;            
         }
     }
 
@@ -198,7 +224,6 @@ public class BladeModeScript : MonoBehaviour
             BladeInside = true;
             StartCoroutine(SliceAction());
         }
-        
     }
 
     IEnumerator SliceAction()
@@ -246,7 +271,7 @@ public class BladeModeScript : MonoBehaviour
         if(enemy.HP > 0 && enemy != null)
         {
             RightController.SendHapticImpulse(1,0.2f);
-            enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
+            enemy.TakeDamage(50, 1, true, new Vector3(0,0,0));
             if(dmgSoundListIndex == 0)
             {
                 damageSound1.Play();
