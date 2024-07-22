@@ -62,13 +62,15 @@ public class Enemy : MonoBehaviour
         else
             anim.SetBool("IsPlayerInAttackRange", true);
 
+
         if(HP <= 0)
         {
-            anim.Play("Staggered");
-            canSlice = true;
+            anim.SetBool("IsStaggered", true);
         }
         else
-            canSlice = false;
+        {
+            anim.SetBool("IsStaggered", false);
+        }
 
         if(readyToAttack && !attacking && !isStunned && !isStaggered)
             anim.SetBool("canAttack", true);
@@ -80,6 +82,23 @@ public class Enemy : MonoBehaviour
     void Idle()
     {
 
+    }
+
+    public void Stun()
+    {
+
+    }
+
+    public void Stagger()
+    {
+        agent.speed = 0;
+        canSlice = true;
+        Invoke(nameof(Regen), 5f);
+    }
+    void Regen()
+    {
+        HP = StatPreset.HP /2;
+        canSlice = false;
     }
 
     public void Chase()
@@ -104,6 +123,7 @@ public class Enemy : MonoBehaviour
 
         Invoke(nameof(AttackEnd), 1f);
     }
+
     void AttackEnd()
     {
         //enemySwordCollider.enabled = false;
@@ -128,6 +148,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float TakenDamage, float StunDuration, bool swordKb, Vector3 hitDir)
     {
+        StartCoroutine(Stun(StunDuration));
         if(canSlice) return;
         //Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
         HP = HP - TakenDamage;
@@ -171,15 +192,16 @@ public class Enemy : MonoBehaviour
         EnableAgent();
     }
 
-    //IEnumerator Stun(float stunDuration)
-    //{
-    //    
-    //    anim.Play("Stun");
-    //    isStunned = true;
-    //    yield return new WaitForSeconds(stunDuration);
-    //    isStunned = false;
-    //    anim.SetBool("IsStunned",false);
-    //}
+    IEnumerator Stun(float stunDuration)
+    {
+        anim.SetBool("IsStunned",true);
+        anim.Play("Stunned");
+        isStunned = true;
+        yield return new WaitForSeconds(stunDuration);
+        isStunned = false;
+        anim.SetBool("IsStunned",false);
+
+    }
 
     IEnumerator AgentGroundCheck()
     {
