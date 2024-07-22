@@ -162,7 +162,7 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine(SwordKnockBack());
         } else {
-            FistKnockBack(kbDirection);
+            StartCoroutine(FistKnockBack(kbDirection));
         }
     }
 
@@ -210,7 +210,7 @@ public class Enemy : MonoBehaviour
         {
             agent.enabled = true;
             rb.isKinematic = true;
-            obstacle.enabled = true;
+            obstacle.enabled = false;
             yield break;
         } else {
             yield return null;
