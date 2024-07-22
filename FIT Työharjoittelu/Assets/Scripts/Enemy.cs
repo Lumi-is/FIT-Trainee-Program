@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] EnemyGroundCheck enemyGroundCheck;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private NavMeshObstacle obstacle;
 
     public float HP;
     public bool canSlice;
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         HP = StatPreset.MaxHP;
-        
+        obstacle = transform.GetComponent<NavMeshObstacle>();
     }
 
     // Update is called once per frame
@@ -209,6 +210,7 @@ public class Enemy : MonoBehaviour
         {
             agent.enabled = true;
             rb.isKinematic = true;
+            obstacle.enabled = true;
             yield break;
         } else {
             yield return null;
@@ -225,6 +227,7 @@ public class Enemy : MonoBehaviour
     void DisableAgent()
     {
         agent.enabled = false;
+        obstacle.enabled = true;
         rb.isKinematic = false;
     }
 }
