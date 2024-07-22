@@ -198,7 +198,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Stun(float stunDuration)
     {
-        anim.Play("Stun");
+        anim.Play("Stunned");
         isStunned = true;
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;

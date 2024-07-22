@@ -8,11 +8,6 @@ using UnityEditor.Rendering;
 
 public class BladeModeScript : MonoBehaviour
 {
-    public bool bladeMode;
-
-    public Vector3 zoomOffset;
-
-    public float zoomFOV = 15;
 
     public Transform cutPlane;
 
@@ -155,13 +150,6 @@ public class BladeModeScript : MonoBehaviour
             return null;
 
         return obj.Slice(cutPlane.position, cutPlane.up, crossSectionMaterial);
-    }
-
-    public void Zoom(bool state)
-    {
-        bladeMode = state;
-
-        cutPlane.gameObject.SetActive(state);
     }
 
 
