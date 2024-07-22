@@ -27,13 +27,17 @@ public class BladeModeScript : MonoBehaviour
 
     public bool canSlice = true; 
 
-    public bool Slowdown;
-
     public bool BladeInside;
 
-    private Quaternion RememberRotation;
-
     private bool CuttingSuccesful;
+
+    [Header("Audio")]
+    [SerializeField] AudioSource damageSound1;
+    [SerializeField] AudioSource damageSound2;
+    [SerializeField] AudioSource damageSound3;
+    int dmgSoundListIndex = 0;
+
+    [SerializeField] AudioSource killSound;
 
 
     //[SerializeField] private float RotationThreshold;
@@ -41,6 +45,7 @@ public class BladeModeScript : MonoBehaviour
     //public bool yRotationConstant;
     //public bool zRotationConstant;
 
+    [Header("Variables")]
     [SerializeField] SwordVariables swordVariables;
 
     public float speedThreshold;
@@ -67,10 +72,7 @@ public class BladeModeScript : MonoBehaviour
         if(BladeInside && CuttingSuccesful)
         {
             RightController.SendHapticImpulse(1,0.1f);
-            Slowdown = true;
-        } else {
-            Slowdown = false;
-        }
+        } 
 
         rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
         float raysCastDistance = Vector3.Distance (rayCastStart.transform.position, rayCastEnd.transform.position);
@@ -176,12 +178,13 @@ public class BladeModeScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canSlice)
+        if((layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && canSlice && swordVariables.Speed > speedThreshold)
         {
             if(!bladeHitIncorrectly){
                 bladeHitCorrectly = true;
             } else {
-                StartCoroutine(SliceCooldown(0.2f));
+                StartCoroutine(SliceCooldown(0.1f));
+                //Incorrect direction cooldown
             }
         }
     }
@@ -200,11 +203,14 @@ public class BladeModeScript : MonoBehaviour
         bladeHitIncorrectly = false;
     }
 
-    public void StartSlicing()
+    public void StartSlicing(Enemy enemy)
     {
-        RememberRotation = transform.rotation;
-        BladeInside = true;
-        StartCoroutine(SliceAction());
+        if(enemy.HP <= 0)
+        {
+            BladeInside = true;
+            StartCoroutine(SliceAction());
+        }
+        
     }
 
     IEnumerator SliceAction()
@@ -232,17 +238,38 @@ public class BladeModeScript : MonoBehaviour
                     if(enemy.canSlice)
                     {
                         Slice();
-                    } else {
-                        enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
-                    }      
+                        killSound.Play();
+                        dmgSoundListIndex = 0;
+                    }  
                 } else {
                     Slice();
-                }
-                           
+                    killSound.Play();
+                    dmgSoundListIndex = 0;
+                }          
             } 
 
             CuttingSuccesful = false;
             BladeInside = false;            
+        }
+    }
+
+    public void DoDamage(Enemy enemy)
+    {
+        if(enemy.HP > 0)
+        {
+            RightController.SendHapticImpulse(1,0.2f);
+            enemy.TakeDamage(20, 1, true, new Vector3(0,0,0));
+            if(dmgSoundListIndex == 0)
+            {
+                damageSound1.Play();
+                dmgSoundListIndex++;
+            } else if(dmgSoundListIndex == 1){
+                damageSound2.Play();
+                dmgSoundListIndex++;
+            } else {
+                damageSound3.Play();
+                dmgSoundListIndex = 0;
+            }
         }
     }
 }

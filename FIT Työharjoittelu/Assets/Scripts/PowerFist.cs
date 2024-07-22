@@ -24,6 +24,9 @@ public class PowerFist : MonoBehaviour
     [SerializeField] XRBaseController controller;
     [SerializeField] VisualEffect PunchImpactVFX;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource punchSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,14 +67,15 @@ public class PowerFist : MonoBehaviour
             enemy.TakeDamage(100, Speed, false, HitDirection.normalized * HitForce * Speed);
 
             PunchImpactVFX.transform.LookAt(col.gameObject.transform);
-            StartCoroutine(PlayPunchImpactVFX());
+            StartCoroutine(PlayPunchImpactFX());
         }
     }
 
-    IEnumerator PlayPunchImpactVFX()
+    IEnumerator PlayPunchImpactFX()
     {
         PunchImpactVFX.enabled = true;
         PunchImpactVFX.SendEvent("Play");
+        punchSFX.Play();
         yield return new WaitForSeconds(2);
         PunchImpactVFX.enabled = false;
     }
