@@ -5,7 +5,9 @@ using System;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
-using NUnit.Framework.Constraints;
+using UnityEngine.AI;
+using UnityEditor.Analytics;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -53,8 +55,30 @@ public class LevelManager : MonoBehaviour
     private void SpawnEnemy(GameObject EnemyType)
     {
         int RandomOffset = UnityEngine.Random.Range(-2,3);
-        Vector3 SpawnPos = Player.position + Player.forward * UnityEngine.Random.Range(minDistanceFromPlayer,maxDistanceFromPlayer+1) + Vector3.right * RandomOffset;
-        Instantiate(EnemyType, new Vector3(SpawnPos.x, 1, SpawnPos.z), Quaternion.identity);
+        Vector3 TrySpawnPos = Player.position + Player.forward * UnityEngine.Random.Range(minDistanceFromPlayer,maxDistanceFromPlayer+1) + Vector3.right * RandomOffset;
+        Vector3 SpawnPos = new Vector3(0,0,0);
+        NavMeshHit hit;
+        bool canSpawn;
+        if(NavMesh.SamplePosition(TrySpawnPos, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            SpawnPos = hit.position;
+            canSpawn = true;
+        } else {
+            canSpawn = false;
+        }
+
+        if(canSpawn)
+        {
+            Instantiate(EnemyType, new Vector3(SpawnPos.x, SpawnPos.y, SpawnPos.z), Quaternion.identity);
+        } else {
+            StartCoroutine(FailedSpawnAttemptCooldown(EnemyType));
+        } 
+    }
+
+    private IEnumerator FailedSpawnAttemptCooldown(GameObject EnemyType)
+    {
+        yield return new WaitForSeconds(1f);
+        SpawnEnemy(EnemyType);
     }
 
     private IEnumerator EnemySpawning(GameObject[] LevelEnemies)
@@ -80,7 +104,7 @@ public class LevelManager : MonoBehaviour
                 StartCoroutine(EnemySpawning(LevelEnemies));
                 yield break;
             } else {
-                yield break;
+                LoadNextLevel();
             }
         } else {
             yield return null;
@@ -104,5 +128,10 @@ public class LevelManager : MonoBehaviour
             //Fallback
             return false;
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

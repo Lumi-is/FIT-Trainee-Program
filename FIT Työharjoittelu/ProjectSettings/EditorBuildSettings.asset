@@ -6,8 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/EnviroTestScene.unity
-    guid: bed49f4284d502c43bdd6a7a9c143f47
+    path: Assets/Scenes/Level 1.unity
+    guid: 6973c8a46dbba5c48ac68cc1564821aa
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 4f1bcef1177989043b446c20e0bef57f
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 5d9f427b52d3fd94eba5b2626c35651e
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: ce5656c1f70f2b84d917a7cccb3583ea
+  - enabled: 1
+    path: Assets/Scenes/Level 5.unity
+    guid: 02e0c82bbd6ccd64a8ff2ecd3dbb6315
+  - enabled: 1
+    path: Assets/Scenes/Level 6.unity
+    guid: 120563df92ab0534c886c38703272da3
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 015bdcc1b331be84584ce651babb1045
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: eba677df2d20aa6458b8d16ffa6db9e2,
       type: 2}
