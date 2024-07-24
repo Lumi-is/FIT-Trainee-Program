@@ -6,11 +6,11 @@ TerrainLayer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RockWall05
+  m_Name: RockSmall
   m_DiffuseTexture: {fileID: 2800000, guid: 686064a605073d24380ee520c591a335, type: 3}
   m_NormalMapTexture: {fileID: 2800000, guid: bcf25bfea0bfd70469ba400a885d4c1e, type: 3}
   m_MaskMapTexture: {fileID: 0}
-  m_TileSize: {x: 4, y: 4}
+  m_TileSize: {x: 2, y: 2}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}
   m_Metallic: 0
