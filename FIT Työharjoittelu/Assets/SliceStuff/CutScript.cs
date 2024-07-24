@@ -8,6 +8,7 @@ using UnityEditor.Rendering;
 
 public class BladeModeScript : MonoBehaviour
 {
+    [SerializeField] PlayerPowerUps playerPowerUps;
 
     public Transform cutPlane;
 
@@ -102,6 +103,21 @@ public class BladeModeScript : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             hits[i].GetComponent<Renderer>().material = newMat;
+
+            
+            if(hits[i].tag == "DamageBoost") {
+                playerPowerUps.DamageBoostAmount = playerPowerUps.DamageBoostAmount + 0.25f;
+            } else if(hits[i].tag == "SpeedBoost"){
+                playerPowerUps.SpeedBoostAmount = playerPowerUps.SpeedBoostAmount + 0.25f;
+            } else if(hits[i].tag == "JumpBoost") {
+                playerPowerUps.JumpBoostAmount = playerPowerUps.JumpBoostAmount + 0.25f;
+            } else if(hits[i].tag == "DashBoost") {
+                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.25f;
+            } else if(hits[i].tag == "HitForceBoost") {
+                playerPowerUps.HitforceBoostAmount = playerPowerUps.HitforceBoostAmount + 0.25f;
+            } else if(hits[i].tag == "UndyingBoost") {
+                playerPowerUps.Undying = true;
+            }  //Add kb
 
             SlicedHull hull = SliceObject(hits[i].gameObject, crossMaterial);
             if (hull != null)
@@ -271,7 +287,7 @@ public class BladeModeScript : MonoBehaviour
         if(enemy.HP > 0 && enemy != null)
         {
             RightController.SendHapticImpulse(1,0.2f);
-            enemy.TakeDamage(50, 1, true, new Vector3(0,0,0));
+            enemy.TakeDamage(swordVariables.Speed*5*playerPowerUps.DamageBoostAmount, 1, true, new Vector3(0,0,0));
             if(dmgSoundListIndex == 0)
             {
                 damageSound1.Play();

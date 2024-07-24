@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Dashing : MonoBehaviour
 {
+
+    [SerializeField] PlayerPowerUps playerPowerUps;
     [Header("References")]
     public Transform playerCam;
     private Rigidbody rb;
@@ -24,6 +26,10 @@ public class Dashing : MonoBehaviour
     [SerializeField] InputActionReference leftHandStick;
     [SerializeField] InputActionReference buttonA;
 
+    private bool isGrounded;
+
+    [SerializeField] EnemyGroundCheck gc;
+ 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,7 +37,14 @@ public class Dashing : MonoBehaviour
 
     private void Update()
     {
-        if (buttonA.action.IsPressed())
+        if(gc.isGrounded)
+        {
+            isGrounded = true;
+        } else {
+            isGrounded = false;
+        }
+
+        if (buttonA.action.IsPressed() && isGrounded)
             Dash();
 
         if (dashCdTimer > 0)
@@ -47,12 +60,10 @@ public class Dashing : MonoBehaviour
 
         Vector3 direction = GetDirection(forwardT);
 
-        Vector3 forceToApply = direction * dashForce + Vector3.up * dashUpwardForce;
-
+        Vector3 forceToApply = direction * dashForce * playerPowerUps.DashBoostAmount + Vector3.up * dashUpwardForce * playerPowerUps.JumpBoostAmount;
 
         delayedForceToApply = forceToApply;
         Invoke(nameof(DelayedDashForce), 0.025f);
-
     }
 
     private Vector3 delayedForceToApply;

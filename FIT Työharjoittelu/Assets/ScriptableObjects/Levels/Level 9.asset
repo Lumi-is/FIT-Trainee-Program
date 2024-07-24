@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba70046005aecf4785435e97af27302, type: 3}
   m_Name: Level 9
   m_EditorClassIdentifier: 
-  MaxEnemyAmount: 25
+  CustomEnemySpawnType: 1
+  delayBeforeStart: 3
+  MaxEnemyAmount: 30
   weakEnemyAmount: 15
   avgEnemyAmount: 10
-  strongEnemyAmount: 0
+  strongEnemyAmount: 5
   MaxConcurrentEnemies: 8
   enemySpawnCooldown: 1

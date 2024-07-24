@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBody : MonoBehaviour
 {
+    [SerializeField] PlayerPowerUps playerPowerUps;
     [SerializeField] Transform playerHead;
 
     [SerializeField] Vector3 bodyOffset;
@@ -13,6 +14,11 @@ public class PlayerBody : MonoBehaviour
     }
     public void Die()
     {
-        //Death
+        if(playerPowerUps.Undying)
+        {
+            playerPowerUps.Undying = false;
+        } else {
+            //Death
+        }
     }
 }
