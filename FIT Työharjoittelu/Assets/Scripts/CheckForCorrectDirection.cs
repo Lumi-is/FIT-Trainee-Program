@@ -20,6 +20,7 @@ public class CheckForCorrectDirection : MonoBehaviour
                     CutScript.StartSliceCooldown(0.1f);
                 } else {
                     CutScript.Slice();
+                    CutScript.StartSliceCooldown(0.1f);
                     //Play sfx
                 }
                 

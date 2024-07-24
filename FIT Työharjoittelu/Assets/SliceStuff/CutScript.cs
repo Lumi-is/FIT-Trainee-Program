@@ -124,7 +124,7 @@ public class BladeModeScript : MonoBehaviour
                 levelManager.LoadNextLevel(1);
             } else if(hits[i].tag == "DashBoost" && !hasAcquiredPowerUp) {
                 hasAcquiredPowerUp = true;
-                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.5f;
+                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.1f;
                 levelManager.LoadNextLevel(1);
             } else if(hits[i].tag == "HitForceBoost" && !hasAcquiredPowerUp) {
                 hasAcquiredPowerUp = true;
@@ -304,7 +304,7 @@ public class BladeModeScript : MonoBehaviour
         if(enemy.HP > 0 && enemy != null)
         {
             RightController.SendHapticImpulse(1,0.2f);
-            enemy.TakeDamage(swordVariables.Speed*5*playerPowerUps.DamageBoostAmount, 1, true, new Vector3(0,0,0));
+            enemy.TakeDamage(swordVariables.Speed*playerPowerUps.DamageBoostAmount, 1, true, new Vector3(0,0,0));
             if(dmgSoundListIndex == 0)
             {
                 damageSound1.Play();
