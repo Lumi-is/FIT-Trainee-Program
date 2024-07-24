@@ -9,7 +9,7 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] PlayerPowerUps playerPowerUps;
 
-    [SerializeField] GameObject[] powerUps = new GameObject[7];
+    [SerializeField] GameObject[] powerUps = new GameObject[6];
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +21,12 @@ public class PowerUpManager : MonoBehaviour
 
     public void PresentOptions()
     {
-        int option1Index = Random.Range(1,7);
-        int option2Index = Random.Range(1,7);
+        int option1Index = Random.Range(0,6);
+        int option2Index = Random.Range(0,6);
 
         while(option1Index == option2Index)
         {
-            option2Index = Random.Range(1,7);
+            option2Index = Random.Range(0,6);
         }
         GameObject option1 = powerUps[option1Index];
         GameObject option2 = powerUps[option2Index];

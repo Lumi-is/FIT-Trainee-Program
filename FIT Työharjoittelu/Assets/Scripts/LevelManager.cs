@@ -17,6 +17,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] EnemyStatPreset strongEnemyStats;
     [SerializeField] Transform Player;
 
+    [SerializeField] PowerUpManager powerUpManager;
+
+    private bool PowerUpsInstantiated;
+
     [SerializeField] float minDistanceFromPlayer;
     [SerializeField] float maxDistanceFromPlayer;
     [SerializeField] FindObjectsSortMode sortmode;
@@ -138,9 +142,10 @@ public class LevelManager : MonoBehaviour
 
     void CheckForLevelClear(int NumberOfEnemiesInScene, GameObject[] LevelEnemies)
     {
-        if(NumberOfEnemiesInScene == 0 && IsArrayEmpty(LevelEnemies))
+        if(NumberOfEnemiesInScene == 0 && IsArrayEmpty(LevelEnemies) && !PowerUpsInstantiated)
         {
-            Invoke(nameof(LoadNextLevel),3);
+            PowerUpsInstantiated = true;
+            Invoke(nameof(InstantiatePowerups),3);
         }         
     }
 
@@ -218,11 +223,17 @@ public class LevelManager : MonoBehaviour
 
     void InstantiatePowerups()
     {
-
+        powerUpManager.PresentOptions();
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel(float delay)
     {
+        StartCoroutine(LoadLevelDelay(delay));
+    }
+
+    private IEnumerator LoadLevelDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

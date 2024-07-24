@@ -13,9 +13,16 @@ public class CheckForCorrectDirection : MonoBehaviour
         if((CutScript.layerMask.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer && CutScript.canAttack)
         {
             if(CutScript.bladeHitCorrectly){
-                CutScript.DoDamage(other.gameObject.GetComponent<Enemy>());
-                CutScript.StartSlicing(other.gameObject.GetComponent<Enemy>());
-                CutScript.StartSliceCooldown(0.1f);
+                if(other.gameObject.GetComponent<Enemy>() != null)
+                {
+                    CutScript.DoDamage(other.gameObject.GetComponent<Enemy>());
+                    CutScript.StartSlicing(other.gameObject.GetComponent<Enemy>());
+                    CutScript.StartSliceCooldown(0.1f);
+                } else {
+                    CutScript.Slice();
+                    //Play sfx
+                }
+                
             } else {
                 CutScript.bladeHitIncorrectly = true;
                 CutScript.StartSliceCooldown(0.1f); 

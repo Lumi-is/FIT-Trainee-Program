@@ -3560,7 +3560,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: f9ae5f86ce506284e9c8f646871ad87b, type: 3}
   m_Resource: {fileID: 8300000, guid: f9ae5f86ce506284e9c8f646871ad87b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4625,7 +4625,6 @@ MonoBehaviour:
   - {fileID: 1655492362540540355, guid: b47811a1fff03ec4299fbaecd6e0c7b8, type: 3}
   - {fileID: 7935283973696992078, guid: 5e02f98e0341f6e47ac38619d3898b73, type: 3}
   - {fileID: 1443641637270160760, guid: aa5d590388b19c34f9111346d566209f, type: 3}
-  - {fileID: 0}
 --- !u!1 &1494819390
 GameObject:
   m_ObjectHideFlags: 0
@@ -5206,6 +5205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPowerUps: {fileID: 11400000, guid: be29b5c12b8204c418a8e144954d3fa6, type: 2}
+  hasAcquiredPowerUp: 0
+  levelManager: {fileID: 1715564206}
   cutPlane: {fileID: 650028694}
   crossMaterial: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
   newMat: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
@@ -6116,6 +6117,7 @@ MonoBehaviour:
   avgEnemyStats: {fileID: 11400000, guid: 7a1fa7c3e8920d346943b5d99b7d0ef0, type: 2}
   strongEnemyStats: {fileID: 11400000, guid: 2f1aaf3340f1b2e4a9837afa02cab594, type: 2}
   Player: {fileID: 940720518}
+  powerUpManager: {fileID: 1410062319}
   minDistanceFromPlayer: 5
   maxDistanceFromPlayer: 10
   sortmode: 0

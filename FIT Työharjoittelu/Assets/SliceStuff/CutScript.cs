@@ -10,6 +10,10 @@ public class BladeModeScript : MonoBehaviour
 {
     [SerializeField] PlayerPowerUps playerPowerUps;
 
+    public bool hasAcquiredPowerUp = false;
+
+    [SerializeField] LevelManager levelManager;
+
     public Transform cutPlane;
 
     public Material crossMaterial;
@@ -100,23 +104,36 @@ public class BladeModeScript : MonoBehaviour
         if (hits.Length <= 0)
             return;
 
+        hasAcquiredPowerUp = false;
+
         for (int i = 0; i < hits.Length; i++)
         {
             hits[i].GetComponent<Renderer>().material = newMat;
 
-            
-            if(hits[i].tag == "DamageBoost") {
+            if(hits[i].tag == "DamageBoost" && !hasAcquiredPowerUp) {
                 playerPowerUps.DamageBoostAmount = playerPowerUps.DamageBoostAmount + 0.25f;
-            } else if(hits[i].tag == "SpeedBoost"){
+                hasAcquiredPowerUp = true;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "SpeedBoost" && !hasAcquiredPowerUp){
+                hasAcquiredPowerUp = true;
                 playerPowerUps.SpeedBoostAmount = playerPowerUps.SpeedBoostAmount + 0.25f;
-            } else if(hits[i].tag == "JumpBoost") {
-                playerPowerUps.JumpBoostAmount = playerPowerUps.JumpBoostAmount + 0.25f;
-            } else if(hits[i].tag == "DashBoost") {
-                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.25f;
-            } else if(hits[i].tag == "HitForceBoost") {
-                playerPowerUps.HitforceBoostAmount = playerPowerUps.HitforceBoostAmount + 0.25f;
-            } else if(hits[i].tag == "UndyingBoost") {
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "JumpBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.JumpBoostAmount = playerPowerUps.JumpBoostAmount + 1f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "DashBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.5f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "HitForceBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.HitforceBoostAmount = playerPowerUps.HitforceBoostAmount + 0.5f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "UndyingBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
                 playerPowerUps.Undying = true;
+                levelManager.LoadNextLevel(1);
             }  //Add kb
 
             SlicedHull hull = SliceObject(hits[i].gameObject, crossMaterial);
