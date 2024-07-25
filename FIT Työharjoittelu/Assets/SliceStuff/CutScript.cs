@@ -245,7 +245,7 @@ public class BladeModeScript : MonoBehaviour
 
         if((enemySwordLayer.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
         {
-            EnemySword enemySword = other.transform.GetComponentInParent<EnemySword>();
+            EnemySword enemySword = other.transform.GetComponent<EnemySword>();
             Enemy enemy = enemySword.enemy;
             enemy.AttackBlocked();
         }
