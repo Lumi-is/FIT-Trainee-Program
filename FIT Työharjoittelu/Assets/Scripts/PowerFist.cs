@@ -32,7 +32,7 @@ public class PowerFist : MonoBehaviour
     void Start()
     {
         //Debug
-        isCharged = true;
+        //isCharged = true;
         PunchImpactVFX.enabled = false;
     }
 
@@ -62,6 +62,7 @@ public class PowerFist : MonoBehaviour
     {
         if(canAttack && col.gameObject.tag == "Enemy")
         {
+            isCharged = false;
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             controller.SendHapticImpulse(1,0.5f);

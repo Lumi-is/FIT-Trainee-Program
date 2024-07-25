@@ -115,7 +115,11 @@ public class LevelManager : MonoBehaviour
 
         if(canSpawn)
         {
-            Instantiate(EnemyType, SpawnPos, Quaternion.identity);
+            GameObject newObject = Instantiate(EnemyType, SpawnPos, Quaternion.identity);
+            if(UnityEngine.Random.Range(0,2) == 1)
+            {
+                newObject.transform.localScale = new Vector3(-1,1,1);
+            }
         } else {
             StartCoroutine(FailedSpawnAttemptCooldown(EnemyType));
         }

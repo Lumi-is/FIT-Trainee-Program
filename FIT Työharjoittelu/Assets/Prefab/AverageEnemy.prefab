@@ -272,9 +272,9 @@ MonoBehaviour:
   enemySwordCollider: {fileID: 1447280102295848222}
   attacking: 0
   approachRange: 4
-  attackRange: 2
-  chaseSpeed: 2
-  approachSpeed: 1
+  attackRange: 2.2
+  chaseSpeed: 3
+  approachSpeed: 2
   isGrounded: 1
   attackRate: 1
   states: {fileID: 8459142181637300297}
@@ -551,10 +551,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.29509678, y: 1.0065843, z: 0.08402514}
-  m_Center: {x: -0.015274097, y: 0.759027, z: -0.0029001958}
+  m_Size: {x: 0.2757651, y: 1.2445992, z: 0.04834378}
+  m_Center: {x: -0.1291575, y: 0.7122255, z: -0.009825319}
 --- !u!114 &7312452359579695603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,4 +568,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2047953835088736361}
-  isUsed: 1
