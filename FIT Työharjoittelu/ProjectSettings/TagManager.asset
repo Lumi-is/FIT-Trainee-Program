@@ -7,6 +7,12 @@ TagManager:
   - CutVFX
   - Enemy
   - PlayerKatana
+  - UndyingBoost
+  - SpeedBoost
+  - DamageBoost
+  - JumpBoost
+  - HitForceBoost
+  - DashBoost
   layers:
   - Default
   - TransparentFX

@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PowerFist : MonoBehaviour
 {
+    public PlayerPowerUps playerPowerUps;
     public float Speed;    
     public float speedThreshold;
     Vector3 Frame1Pos;
@@ -64,7 +65,7 @@ public class PowerFist : MonoBehaviour
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             controller.SendHapticImpulse(1,0.5f);
-            enemy.TakeDamage(100, 5, false, HitDirection.normalized * HitForce * Speed);
+            enemy.TakeDamage(100, 5, false, HitDirection.normalized * HitForce * Speed * playerPowerUps.HitforceBoostAmount);
 
             PunchImpactVFX.transform.LookAt(col.gameObject.transform);
             StartCoroutine(PlayPunchImpactFX());

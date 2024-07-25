@@ -17,11 +17,18 @@ public class LevelManager : MonoBehaviour
     [SerializeField] EnemyStatPreset strongEnemyStats;
     [SerializeField] Transform Player;
 
+    [SerializeField] PowerUpManager powerUpManager;
+
+    private bool PowerUpsInstantiated;
+
     [SerializeField] float minDistanceFromPlayer;
     [SerializeField] float maxDistanceFromPlayer;
     [SerializeField] FindObjectsSortMode sortmode;
 
-    int NumberOfEnemiesInScene;
+    public Enemy[] DebugEnemyList = new Enemy[100];
+    public int DebugEnemyAmount;
+
+    public int NumberOfEnemiesInScene;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +55,22 @@ public class LevelManager : MonoBehaviour
             } else {
                 LevelEnemies[i] = strongEnemy;
             }
-        }   
-        StartCoroutine(EnemySpawning(LevelEnemies));
+        }
+
+        if(CurrentLevelStat.CustomEnemySpawnType == 0)
+        {
+            StartCoroutine(DelayBeforeFirstSpawn(LevelEnemies));
+        } else if(CurrentLevelStat.CustomEnemySpawnType == 1){
+            //Custom boss
+            StartCoroutine(Boss(LevelEnemies));
+        }
+        
+    }
+
+    void Update()
+    {
+        var EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        NumberOfEnemiesInScene = EnemyList.Length;
     }
 
     private void SpawnEnemy(GameObject EnemyType)
@@ -69,7 +90,7 @@ public class LevelManager : MonoBehaviour
 
         if(canSpawn)
         {
-            Instantiate(EnemyType, new Vector3(SpawnPos.x, SpawnPos.y, SpawnPos.z), Quaternion.identity);
+            Instantiate(EnemyType, SpawnPos, Quaternion.identity);
         } else {
             StartCoroutine(FailedSpawnAttemptCooldown(EnemyType));
         } 
@@ -81,11 +102,14 @@ public class LevelManager : MonoBehaviour
         SpawnEnemy(EnemyType);
     }
 
+    private IEnumerator DelayBeforeFirstSpawn(GameObject[] LevelEnemies)
+    {
+        yield return new WaitForSeconds(CurrentLevelStat.delayBeforeStart);
+        StartCoroutine(EnemySpawning(LevelEnemies));
+    }
+
     private IEnumerator EnemySpawning(GameObject[] LevelEnemies)
     {
-        var EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-        NumberOfEnemiesInScene = EnemyList.Length;
-
         if(NumberOfEnemiesInScene < CurrentLevelStat.MaxConcurrentEnemies)
         {
             int Random = UnityEngine.Random.Range(0,LevelEnemies.Length);
@@ -104,12 +128,25 @@ public class LevelManager : MonoBehaviour
                 StartCoroutine(EnemySpawning(LevelEnemies));
                 yield break;
             } else {
-                LoadNextLevel();
+                CheckForLevelClear(NumberOfEnemiesInScene, LevelEnemies);
+                yield return null;
+                StartCoroutine(EnemySpawning(LevelEnemies));
             }
         } else {
             yield return null;
             StartCoroutine(EnemySpawning(LevelEnemies));
         }
+
+        CheckForLevelClear(NumberOfEnemiesInScene, LevelEnemies);
+    }
+
+    void CheckForLevelClear(int NumberOfEnemiesInScene, GameObject[] LevelEnemies)
+    {
+        if(NumberOfEnemiesInScene == 0 && IsArrayEmpty(LevelEnemies) && !PowerUpsInstantiated)
+        {
+            PowerUpsInstantiated = true;
+            Invoke(nameof(InstantiatePowerups),3);
+        }         
     }
 
     private bool IsArrayEmpty(GameObject[] LevelEnemies) {
@@ -117,21 +154,86 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < LevelEnemies.Length; i++){
             if (LevelEnemies[i] != null) {
                 return false;
-            }
+            } 
         }
 
-        if (LevelEnemies == null || LevelEnemies.Length == 0)
-        {
-            return true;
-        } else {
-
-            //Fallback
-            return false;
-        }
+        return true;
     }
 
-    private void LoadNextLevel()
+    private IEnumerator Boss(GameObject[] LevelEnemies)
     {
+        yield return new WaitForSeconds(2);
+
+        //Play boss sfx
+
+        yield return new WaitForSeconds(1);
+
+        for(int i = 0; i < 5; i++)
+        {
+            SpawnEnemy(weakEnemyStats.Prefab);
+        }
+
+        yield return null;
+
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+
+        yield return new WaitForSeconds(3);
+
+        //Play boss sfx 2 
+        //Change boss colour
+
+        yield return new WaitForSeconds(1);
+
+        for(int i = 0; i < 5; i++)
+        {
+            SpawnEnemy(avgEnemyStats.Prefab);
+        }
+
+        yield return null;
+
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+
+        yield return new WaitForSeconds(3);
+
+        //Play boss sfx 3
+        //Change boss colour
+
+        yield return new WaitForSeconds(2);
+
+        for(int i = 0; i < 5; i++)
+        {
+            SpawnEnemy(strongEnemyStats.Prefab);
+        }
+
+        yield return null;
+
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+
+        yield return new WaitForSeconds(3);
+
+        //Play boss sfx 3
+        //Change boss colour
+
+        //Final phase starts
+
+        yield return new WaitForSeconds(0.5f);
+
+        StartCoroutine(EnemySpawning(LevelEnemies));
+    }
+
+    void InstantiatePowerups()
+    {
+        powerUpManager.PresentOptions();
+    }
+
+    public void LoadNextLevel(float delay)
+    {
+        StartCoroutine(LoadLevelDelay(delay));
+    }
+
+    private IEnumerator LoadLevelDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
