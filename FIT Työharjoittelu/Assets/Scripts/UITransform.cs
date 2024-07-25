@@ -8,6 +8,10 @@ public class UITransform : MonoBehaviour
     [SerializeField] Transform follow;
     [SerializeField] Camera cam;
 
+    void Start()
+    {
+        transform.position = follow.position + Vector3.up * 0.2f;
+    }
     // Update is called once per frame
     void Update()
     {

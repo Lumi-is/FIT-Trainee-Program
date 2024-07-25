@@ -6,8 +6,6 @@ public class Dummy : MonoBehaviour
 {
     [SerializeField] LevelManager levelManager;
 
-    [SerializeField] Animation HitAnim;
-
     void OnTriggerEnter(Collider col)
     {
         if(col.gameObject.tag == "PlayerKatana")

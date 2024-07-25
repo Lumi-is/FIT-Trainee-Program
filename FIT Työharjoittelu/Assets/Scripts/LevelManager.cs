@@ -300,25 +300,25 @@ public class LevelManager : MonoBehaviour
         //Show guide to attack dummy
         tutorialText.text = "Try hitting this dummy with your sword";
 
-        yield return new WaitUntil(()=> DummyHitAmount == 1);
-        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> DummyHitAmount >= 1);
+        yield return new WaitForSeconds(0.1f);
         tutorialText.text = "Faster swings deal more damage.";
 
 
-        yield return new WaitUntil(()=> DummyHitAmount == 2);
-        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> DummyHitAmount >= 2);
+        yield return new WaitForSeconds(0.1f);
         tutorialText.text = "Try hitting the dummy again, but faster";
 
-        yield return new WaitUntil(()=> DummyHitAmount == 3);
-        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> DummyHitAmount >= 3);
+        yield return new WaitForSeconds(0.1f);
         tutorialText.text = "One more time";
 
-        yield return new WaitUntil(()=> DummyHitAmount == 4);
-        yield return new WaitForSeconds(3);
+        yield return new WaitUntil(()=> DummyHitAmount >= 4);
+        yield return new WaitForSeconds(0.1f);
         tutorialText.text = "Great. Now try punching the dummy with your left fist";
 
         yield return new WaitUntil(()=> hasPunchedDummy);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.1f);
         tutorialText.text = "Punching enemies with a charged fist makes them fly and staggers them. Staggered enemies can be sliced in half easily. Fist is charged when the crystal gemstone shines red.";
 
         yield return new WaitForSeconds(10);
@@ -329,7 +329,7 @@ public class LevelManager : MonoBehaviour
         SpawnEnemy(weakEnemyStats.Prefab);
 
         yield return new WaitForSeconds(4);
-        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
         yield return new WaitForSeconds(1);
 
         tutorialText.text = "Blocking attacks from enemies charges your fist, unless charged the fist does not do too much.";
@@ -340,7 +340,7 @@ public class LevelManager : MonoBehaviour
         SpawnEnemy(weakEnemyStats.Prefab);
 
         yield return new WaitForSeconds(1);
-        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
         tutorialText.text = "Great. After defeating all the threats the level has to offer, you will be given a powerup of two choices.";
 
         yield return new WaitForSeconds(3);
