@@ -8,7 +8,7 @@ public class EnemyStaggered : StateMachineBehaviour
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       enemy = animator.transform.GetComponent<Enemy>();
+       enemy = animator.transform.GetComponentInParent<Enemy>();
        enemy.Stagger();
     }
 
