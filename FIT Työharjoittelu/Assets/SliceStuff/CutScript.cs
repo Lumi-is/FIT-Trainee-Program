@@ -68,11 +68,16 @@ public class BladeModeScript : MonoBehaviour
         //cutPlane.gameObject.SetActive(false);
     }
 
+    public void SendHapticImpulse(float Duration)
+    {
+        RightController.SendHapticImpulse(1,Duration);
+    }
+
     void Update()
     {
         if(BladeInside && CuttingSuccesful)
         {
-            RightController.SendHapticImpulse(1,0.1f);
+            SendHapticImpulse(0.1f);
         } 
 
         rayCastDir = (rayCastEnd.position - rayCastStart.position).normalized;
@@ -134,7 +139,7 @@ public class BladeModeScript : MonoBehaviour
                 hasAcquiredPowerUp = true;
                 playerPowerUps.Undying = true;
                 levelManager.LoadNextLevel(1);
-            }  //Add kb
+            }  
 
             SlicedHull hull = SliceObject(hits[i].gameObject, crossMaterial);
             if (hull != null)
@@ -303,7 +308,7 @@ public class BladeModeScript : MonoBehaviour
     {
         if(enemy.HP > 0 && enemy != null)
         {
-            RightController.SendHapticImpulse(1,0.2f);
+            SendHapticImpulse(0.2f);
             enemy.TakeDamage(swordVariables.Speed*playerPowerUps.DamageBoostAmount, 1, true, new Vector3(0,0,0));
             if(dmgSoundListIndex == 0)
             {

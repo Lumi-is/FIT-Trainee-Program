@@ -8,13 +8,18 @@ using Unity.VisualScripting;
 using UnityEngine.AI;
 using UnityEditor.Analytics;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
+    [Header("Level variables")]
     [SerializeField] LevelPreset CurrentLevelStat;
     [SerializeField] EnemyStatPreset weakEnemyStats;
     [SerializeField] EnemyStatPreset avgEnemyStats; // Get these three from the rescource folder
     [SerializeField] EnemyStatPreset strongEnemyStats;
+
+    [Header("Player")]
     [SerializeField] Transform Player;
 
     [SerializeField] PowerUpManager powerUpManager;
@@ -25,10 +30,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float maxDistanceFromPlayer;
     [SerializeField] FindObjectsSortMode sortmode;
 
+    [Header("Boss")]
+    [SerializeField] GameObject BossObject;
+    private bool CrystalDestroyed;
+
+
+    [Header("Debug")]
     public Enemy[] DebugEnemyList = new Enemy[100];
     public int DebugEnemyAmount;
-
     public int NumberOfEnemiesInScene;
+
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +74,11 @@ public class LevelManager : MonoBehaviour
         } else if(CurrentLevelStat.CustomEnemySpawnType == 1){
             //Custom boss
             StartCoroutine(Boss(LevelEnemies));
+        } else if(CurrentLevelStat.CustomEnemySpawnType == 2)
+        {
+            //Custom tutorial
+            StartCoroutine(TutorialInputs());
+            StartCoroutine(TutorialProgression());
         }
         
     }
@@ -71,6 +87,13 @@ public class LevelManager : MonoBehaviour
     {
         var EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         NumberOfEnemiesInScene = EnemyList.Length;
+
+        if(BossObject == null)
+        {
+            CrystalDestroyed = true;
+        } else {
+            CrystalDestroyed = false;
+        }
     }
 
     private void SpawnEnemy(GameObject EnemyType)
@@ -145,7 +168,14 @@ public class LevelManager : MonoBehaviour
         if(NumberOfEnemiesInScene == 0 && IsArrayEmpty(LevelEnemies) && !PowerUpsInstantiated)
         {
             PowerUpsInstantiated = true;
-            Invoke(nameof(InstantiatePowerups),3);
+            if(SceneManager.GetActiveScene().buildIndex != 9)
+            {
+                Invoke(nameof(InstantiatePowerups),3);
+            } else {
+                //Ability to destroy crystal, after which ending
+                StartCoroutine(BossCrystalDestroy());
+            }
+            
         }         
     }
 
@@ -156,7 +186,6 @@ public class LevelManager : MonoBehaviour
                 return false;
             } 
         }
-
         return true;
     }
 
@@ -219,6 +248,107 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         StartCoroutine(EnemySpawning(LevelEnemies));
+    }
+
+    private IEnumerator BossCrystalDestroy()
+    {
+        BossObject.layer = LayerMask.NameToLayer("Cuttable");
+        yield return new WaitUntil(()=> CrystalDestroyed);
+        LoadLevelDelay(5);
+    }
+
+    [Header("Tutorial")]
+    public bool hasDashed;
+    public bool HasMoved;
+    public int DummyHitAmount;
+    public bool hasPunchedDummy;
+
+    [SerializeField] InputActionReference leftHandStick;
+    [SerializeField] InputActionReference buttonA;
+
+    [SerializeField] TextMeshProUGUI tutorialText;
+
+    private IEnumerator TutorialInputs()
+    {
+        if(buttonA.action.IsPressed())
+        {
+            hasDashed = true;
+        }
+        if(leftHandStick.action.ReadValue<Vector2>() != Vector2.zero)
+        {
+            HasMoved = true;
+        }
+
+        //Adds one to dummy hit amount every time they get hit in the dummy script
+
+        //Changes haspuncheddummy to true when dummy is hit by fist
+
+        yield return null;
+        StartCoroutine(TutorialInputs());
+    }
+
+    private IEnumerator TutorialProgression()
+    {
+        tutorialText.text = "Skip tutorial by pressing right thumbstick down";
+        
+        yield return new WaitForSeconds(5);
+
+        tutorialText.text = "Move with joystick. Jump and dash with the primary button (A) of your controller";
+
+        yield return new WaitUntil(()=> HasMoved && hasDashed);
+        yield return new WaitForSeconds(1);
+        //Show guide to attack dummy
+        tutorialText.text = "Try hitting this dummy with your sword";
+
+        yield return new WaitUntil(()=> DummyHitAmount >= 1);
+        yield return new WaitForSeconds(0.1f);
+        tutorialText.text = "Faster swings deal more damage.";
+
+
+        yield return new WaitUntil(()=> DummyHitAmount >= 2);
+        yield return new WaitForSeconds(0.1f);
+        tutorialText.text = "Try hitting the dummy again, but faster";
+
+        yield return new WaitUntil(()=> DummyHitAmount >= 3);
+        yield return new WaitForSeconds(0.1f);
+        tutorialText.text = "One more time";
+
+        yield return new WaitUntil(()=> DummyHitAmount >= 4);
+        yield return new WaitForSeconds(0.1f);
+        tutorialText.text = "Great. Now try punching the dummy with your left fist";
+
+        yield return new WaitUntil(()=> hasPunchedDummy);
+        yield return new WaitForSeconds(0.1f);
+        tutorialText.text = "Punching enemies with a charged fist makes them fly and staggers them. Staggered enemies can be sliced in half easily. Fist is charged when the crystal gemstone shines red.";
+
+        yield return new WaitForSeconds(10);
+        tutorialText.text = "Try hitting your enemies with the fist, then slicing them with your sword.";
+
+        yield return new WaitForSeconds(4);
+
+        SpawnEnemy(weakEnemyStats.Prefab);
+
+        yield return new WaitForSeconds(4);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
+        yield return new WaitForSeconds(1);
+
+        tutorialText.text = "Blocking attacks from enemies charges your fist, unless charged the fist does not do too much.";
+        yield return new WaitForSeconds(6);
+        tutorialText.text = "Try blocking this enemy and killing them";
+
+        yield return new WaitForSeconds(0.5f);
+        SpawnEnemy(weakEnemyStats.Prefab);
+
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
+        tutorialText.text = "Great. After defeating all the threats the level has to offer, you will be given a powerup of two choices.";
+
+        yield return new WaitForSeconds(3);
+        InstantiatePowerups();
+        yield return new WaitForSeconds(6);
+        
+
+        tutorialText.text = "After taking the powerup, you will move to the next level. Slice the crystal you wish to choose when you want to proceed. ";
     }
 
     void InstantiatePowerups()
