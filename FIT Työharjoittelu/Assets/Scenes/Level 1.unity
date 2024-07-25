@@ -6673,6 +6673,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 5
   maxDistanceFromPlayer: 10
   sortmode: 0
+  BossObject: {fileID: 0}
   DebugEnemyList:
   - {fileID: 0}
   - {fileID: 0}
@@ -6776,6 +6777,14 @@ MonoBehaviour:
   - {fileID: 0}
   DebugEnemyAmount: 0
   NumberOfEnemiesInScene: 0
+  dummy: {fileID: 0}
+  hasDashed: 0
+  HasMoved: 0
+  DummyHitAmount: 0
+  hasPunchedDummy: 0
+  leftHandStick: {fileID: 0}
+  buttonA: {fileID: 0}
+  tutorialText: {fileID: 0}
 --- !u!4 &1715564207
 Transform:
   m_ObjectHideFlags: 0

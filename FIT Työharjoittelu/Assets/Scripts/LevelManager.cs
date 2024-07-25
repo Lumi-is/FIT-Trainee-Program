@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject BossObject;
     private bool CrystalDestroyed;
 
+    Enemy[] EnemyList;
+
 
     [Header("Debug")]
     public Enemy[] DebugEnemyList = new Enemy[100];
@@ -85,7 +87,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        var EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        EnemyList = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         NumberOfEnemiesInScene = EnemyList.Length;
 
         if(BossObject == null)
@@ -116,7 +118,7 @@ public class LevelManager : MonoBehaviour
             Instantiate(EnemyType, SpawnPos, Quaternion.identity);
         } else {
             StartCoroutine(FailedSpawnAttemptCooldown(EnemyType));
-        } 
+        }
     }
 
     private IEnumerator FailedSpawnAttemptCooldown(GameObject EnemyType)
@@ -167,15 +169,18 @@ public class LevelManager : MonoBehaviour
     {
         if(NumberOfEnemiesInScene == 0 && IsArrayEmpty(LevelEnemies) && !PowerUpsInstantiated)
         {
-            PowerUpsInstantiated = true;
-            if(SceneManager.GetActiveScene().buildIndex != 9)
+            NumberOfEnemiesInScene = EnemyList.Length;
+            if(NumberOfEnemiesInScene == 0)
             {
-                Invoke(nameof(InstantiatePowerups),3);
-            } else {
-                //Ability to destroy crystal, after which ending
-                StartCoroutine(BossCrystalDestroy());
+                PowerUpsInstantiated = true;
+                if(SceneManager.GetActiveScene().buildIndex != 9)
+                {
+                    InstantiatePowerups();
+                } else {
+                    //Ability to destroy crystal, after which ending
+                    StartCoroutine(BossCrystalDestroy());
+                }
             }
-            
         }         
     }
 
@@ -258,6 +263,8 @@ public class LevelManager : MonoBehaviour
     }
 
     [Header("Tutorial")]
+
+    [SerializeField] Enemy dummy;
     public bool hasDashed;
     public bool HasMoved;
     public int DummyHitAmount;
@@ -319,18 +326,15 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitUntil(()=> hasPunchedDummy);
         yield return new WaitForSeconds(0.1f);
+        
         tutorialText.text = "Punching enemies with a charged fist makes them fly and staggers them. Staggered enemies can be sliced in half easily. Fist is charged when the crystal gemstone shines red.";
 
         yield return new WaitForSeconds(10);
-        tutorialText.text = "Try hitting your enemies with the fist, then slicing them with your sword.";
+        dummy.HP = 0;
+        tutorialText.text = "Try slicing the dummy with your sword.";
 
-        yield return new WaitForSeconds(4);
-
-        SpawnEnemy(weakEnemyStats.Prefab);
-
-        yield return new WaitForSeconds(4);
-        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
-        yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+        yield return new WaitForSeconds(3);
 
         tutorialText.text = "Blocking attacks from enemies charges your fist, unless charged the fist does not do too much.";
         yield return new WaitForSeconds(6);
@@ -340,7 +344,6 @@ public class LevelManager : MonoBehaviour
         SpawnEnemy(weakEnemyStats.Prefab);
 
         yield return new WaitForSeconds(1);
-        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 1);
         tutorialText.text = "Great. After defeating all the threats the level has to offer, you will be given a powerup of two choices.";
 
         yield return new WaitForSeconds(3);
