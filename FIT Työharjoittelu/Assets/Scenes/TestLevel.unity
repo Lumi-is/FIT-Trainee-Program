@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb975d6bf075bc241956058fe5508f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPowerUps: {fileID: 0}
   playerCam: {fileID: 1194579068}
   dashForce: 3
   dashUpwardForce: 2
@@ -440,6 +441,7 @@ MonoBehaviour:
   leftHandStick: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   buttonA: {fileID: -546794702149675175, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  gc: {fileID: 0}
 --- !u!114 &540252909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4d59b6b2c85854bb8343c560ea2d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPowerUps: {fileID: 0}
+  hasAcquiredPowerUp: 0
+  levelManager: {fileID: 0}
   cutPlane: {fileID: 1283246556}
   crossMaterial: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
   newMat: {fileID: 2100000, guid: 6de1d72c307bae544b473f7e3814ed52, type: 2}
@@ -651,6 +656,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   otherLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  enemySwordLayer:
     serializedVersion: 2
     m_Bits: 0
   bladeHitCorrectly: 0
@@ -2004,6 +2012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68fc7ad437c2d541b7fad8cff7754cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPowerUps: {fileID: 0}
   Speed: 0
   speedThreshold: 5
   isCharged: 0
@@ -3385,9 +3394,122 @@ MonoBehaviour:
   avgEnemyStats: {fileID: 11400000, guid: 7a1fa7c3e8920d346943b5d99b7d0ef0, type: 2}
   strongEnemyStats: {fileID: 11400000, guid: 2f1aaf3340f1b2e4a9837afa02cab594, type: 2}
   Player: {fileID: 1194579068}
+  powerUpManager: {fileID: 0}
   minDistanceFromPlayer: 5
   maxDistanceFromPlayer: 10
   sortmode: 0
+  BossObject: {fileID: 0}
+  DebugEnemyList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DebugEnemyAmount: 0
+  NumberOfEnemiesInScene: 0
+  dummy: {fileID: 0}
+  hasDashed: 0
+  HasMoved: 0
+  DummyHitAmount: 0
+  hasPunchedDummy: 0
+  leftHandStick: {fileID: 0}
+  buttonA: {fileID: 0}
+  tutorialText: {fileID: 0}
 --- !u!4 &1824941862
 Transform:
   m_ObjectHideFlags: 0
