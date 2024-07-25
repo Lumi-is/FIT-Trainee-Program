@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
             states.SetBool("IsPlayerInApproachRange", false);
             states.SetBool("IsPlayerInAttackRange", false);
         }
-        else if(distanceToPlayer < approachRange && distanceToPlayer > attackRange)
+        else if(distanceToPlayer < approachRange && distanceToPlayer > attackRange && !attacking)
         {
             states.SetBool("IsPlayerInApproachRange", true);
             states.SetBool("IsPlayerInAttackRange", false);
