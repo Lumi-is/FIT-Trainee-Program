@@ -21,6 +21,7 @@ public class BladeModeScript : MonoBehaviour
 
     public LayerMask layerMask;
     public LayerMask otherLayerMask;
+    public LayerMask enemySwordLayer;
 
     public bool bladeHitCorrectly;
 
@@ -238,6 +239,13 @@ public class BladeModeScript : MonoBehaviour
 
             CuttingSuccesful = false;
             BladeInside = false;            
+        }
+
+        if((enemySwordLayer.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
+        {
+            EnemySword enemySword = other.transform.GetComponentInParent<EnemySword>();
+            Enemy enemy = enemySword.enemy;
+            enemy.AttackBlocked();
         }
     }
 
