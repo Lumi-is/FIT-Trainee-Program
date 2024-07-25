@@ -67,6 +67,8 @@ public class BladeModeScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //cutPlane.gameObject.SetActive(false);
+
+        enemySwordLayer = LayerMask.NameToLayer("Sword");
     }
 
     public void SendHapticImpulse(float Duration)
