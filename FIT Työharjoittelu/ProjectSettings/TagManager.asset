@@ -13,6 +13,8 @@ TagManager:
   - JumpBoost
   - HitForceBoost
   - DashBoost
+  - Boss
+  - PlayerFist
   layers:
   - Default
   - TransparentFX

@@ -18,12 +18,15 @@ public class CheckForCorrectDirection : MonoBehaviour
                     CutScript.DoDamage(other.gameObject.GetComponent<Enemy>());
                     CutScript.StartSlicing(other.gameObject.GetComponent<Enemy>());
                     CutScript.StartSliceCooldown(0.1f);
+
+                } else if(other.gameObject.tag == "Boss")
+                {
+                    CutScript.SendHapticImpulse(0.2f);
                 } else {
                     CutScript.Slice();
                     CutScript.StartSliceCooldown(0.1f);
                     //Play sfx
                 }
-                
             } else {
                 CutScript.bladeHitIncorrectly = true;
                 CutScript.StartSliceCooldown(0.1f); 
