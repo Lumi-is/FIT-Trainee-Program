@@ -81,19 +81,27 @@ public class Enemy : MonoBehaviour
 
     public void Stagger()
     {
-        //agent.speed = 0;
+        states.SetBool("IsStaggered",true);
+        states.Play("Staggered");
+
         canSlice = true;
+
         Invoke(nameof(Regen), 5f);
         meshRenderer.enabled = true;
         rigModel.SetActive(false);
+
         DisableAgent();
     }
     void Regen()
     {
+        states.SetBool("IsStaggered",false);
+
         HP = StatPreset.HP /2;
         canSlice = false;
+
         rigModel.SetActive(true);
         meshRenderer.enabled = false;
+
         EnableAgent();
     }
 
@@ -159,7 +167,12 @@ public class Enemy : MonoBehaviour
     {
         StopAttack();
         HP =- StatPreset.blockDamage;
-        StartCoroutine(AttackBlockedStun());
+        if(HP <= 0)
+        {
+            Stagger();
+        }
+        else
+            StartCoroutine(AttackBlockedStun());
     }
     IEnumerator AttackBlockedStun()
     {
@@ -180,7 +193,7 @@ public class Enemy : MonoBehaviour
         KnockBack(swordKb, hitDir);
         if(HP <= 0)
         {
-            states.Play("Staggered");
+            Stagger();
         }
     }
 

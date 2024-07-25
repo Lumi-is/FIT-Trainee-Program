@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemySword : MonoBehaviour
 {
-    [SerializeField] Enemy enemy;
+    public Enemy enemy;
     public bool isUsed = true;
 
 

@@ -197,9 +197,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 9171952328373019990, guid: 2cb9ae47a8279cc40a6a3458fe658919, type: 3}
+  - {fileID: 2100000, guid: ca2294516ce8cd34a9420e9b0a1b5c0a, type: 2}
   - {fileID: 2100000, guid: b85c63d7b7d06c94fa0847550c104d64, type: 2}
-  - {fileID: 2100000, guid: 3c6e1725f2d4bd445849fcbfb1dc82df, type: 2}
+  - {fileID: 2100000, guid: ca2294516ce8cd34a9420e9b0a1b5c0a, type: 2}
   - {fileID: 2100000, guid: 87ad03c983e81d64bbcb013cad14979c, type: 2}
   - {fileID: 2100000, guid: 2a6066dd06d390544961d50990a342f5, type: 2}
   - {fileID: 2100000, guid: 296f4a6b9c998a0468dc035db2a6fefa, type: 2}
@@ -503,8 +503,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.14408183, y: 1.0065843, z: 0.038464922}
-  m_Center: {x: -0.0152740665, y: 0.7590269, z: -0.0029001574}
+  m_Size: {x: 0.26551917, y: 1.0065843, z: 0.08860146}
+  m_Center: {x: -0.015274097, y: 0.759027, z: -0.0029001958}
 --- !u!114 &7501373366507898840
 MonoBehaviour:
   m_ObjectHideFlags: 0
