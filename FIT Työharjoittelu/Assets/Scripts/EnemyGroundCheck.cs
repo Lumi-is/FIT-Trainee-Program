@@ -16,6 +16,14 @@ public class EnemyGroundCheck : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider col)
+    {
+        if((GroundLayer.value & 1<< col.gameObject.layer) != 0<<col.gameObject.layer)
+        {
+            isGrounded = true;
+        }
+    }
+
     void OnTriggerExit(Collider col)
     {
         if((GroundLayer.value & 1<< col.gameObject.layer) != 0<<col.gameObject.layer)

@@ -8,6 +8,11 @@ using UnityEditor.Rendering;
 
 public class BladeModeScript : MonoBehaviour
 {
+    [SerializeField] PlayerPowerUps playerPowerUps;
+
+    public bool hasAcquiredPowerUp = false;
+
+    [SerializeField] LevelManager levelManager;
 
     public Transform cutPlane;
 
@@ -99,9 +104,37 @@ public class BladeModeScript : MonoBehaviour
         if (hits.Length <= 0)
             return;
 
+        hasAcquiredPowerUp = false;
+
         for (int i = 0; i < hits.Length; i++)
         {
             hits[i].GetComponent<Renderer>().material = newMat;
+
+            if(hits[i].tag == "DamageBoost" && !hasAcquiredPowerUp) {
+                playerPowerUps.DamageBoostAmount = playerPowerUps.DamageBoostAmount + 0.25f;
+                hasAcquiredPowerUp = true;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "SpeedBoost" && !hasAcquiredPowerUp){
+                hasAcquiredPowerUp = true;
+                playerPowerUps.SpeedBoostAmount = playerPowerUps.SpeedBoostAmount + 0.25f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "JumpBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.JumpBoostAmount = playerPowerUps.JumpBoostAmount + 1f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "DashBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.DashBoostAmount = playerPowerUps.DashBoostAmount + 0.1f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "HitForceBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.HitforceBoostAmount = playerPowerUps.HitforceBoostAmount + 0.5f;
+                levelManager.LoadNextLevel(1);
+            } else if(hits[i].tag == "UndyingBoost" && !hasAcquiredPowerUp) {
+                hasAcquiredPowerUp = true;
+                playerPowerUps.Undying = true;
+                levelManager.LoadNextLevel(1);
+            }  //Add kb
 
             SlicedHull hull = SliceObject(hits[i].gameObject, crossMaterial);
             if (hull != null)
@@ -271,7 +304,7 @@ public class BladeModeScript : MonoBehaviour
         if(enemy.HP > 0 && enemy != null)
         {
             RightController.SendHapticImpulse(1,0.2f);
-            enemy.TakeDamage(50, 1, true, new Vector3(0,0,0));
+            enemy.TakeDamage(swordVariables.Speed*playerPowerUps.DamageBoostAmount, 1, true, new Vector3(0,0,0));
             if(dmgSoundListIndex == 0)
             {
                 damageSound1.Play();
