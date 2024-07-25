@@ -20,9 +20,7 @@ public class Enemy : MonoBehaviour
     public bool isStaggered;
 
     [Header("Attacking")]
-    [SerializeField] private GameObject enemySword;
-     private Collider enemySwordCollider;
-    [SerializeField] bool readyToAttack = true;
+    [SerializeField] Collider enemySwordCollider;
     [SerializeField] bool attacking = false;
     [SerializeField] private float approachRange;
     [SerializeField] private float attackRange;
@@ -30,61 +28,50 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float approachSpeed;
     [SerializeField] private bool isGrounded = true;
 
+    [SerializeField] private float attackRate = 1;
 
-    [Header("State Machine")]
-    [SerializeField] Animator anim;
+
+    [Header("State Machine & Animation")]
+    [SerializeField] Animator states;
+    [SerializeField] Animator animator;
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] GameObject rigModel;
 
     // Start is called before the first frame update
     void Start()
     {
         HP = StatPreset.MaxHP;
         obstacle = transform.GetComponent<NavMeshObstacle>();
+        player = FindAnyObjectByType<PlayerBody>().transform;
+        meshRenderer = transform.GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         isGrounded = enemyGroundCheck.isGrounded;
-        player = FindAnyObjectByType<PlayerBody>().transform;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        if(distanceToPlayer > approachRange && !attacking)
+        if(distanceToPlayer > approachRange)
         {
-            anim.SetBool("IsPlayerInApproachRange", false);
-            anim.SetBool("IsPlayerInAttackRange", false);
-            //RunTowards();
+            states.SetBool("IsPlayerInApproachRange", false);
+            states.SetBool("IsPlayerInAttackRange", false);
         }
-        else if(distanceToPlayer < approachRange && distanceToPlayer > attackRange && !attacking)
+        else if(distanceToPlayer < approachRange && distanceToPlayer > attackRange)
         {
-            anim.SetBool("IsPlayerInApproachRange", true);
-            anim.SetBool("IsPlayerInAttackRange", false);
-            //Attack();
+            states.SetBool("IsPlayerInApproachRange", true);
+            states.SetBool("IsPlayerInAttackRange", false);
         }
-        else
+        else if(distanceToPlayer < attackRange)
         {
-            anim.SetBool("IsPlayerInAttackRange", true);
-        }
-
-        if(HP < 33 || isStaggered)
-        {
-            canSlice = true;
-        } else {
-            canSlice = false;
-        }
-
-        if(readyToAttack && !attacking && !isStunned && !isStaggered)
-        {
-            anim.SetBool("canAttack", true);
-        }
-        else
-        {
-            anim.SetBool("canAttack", false);
+            states.SetBool("IsPlayerInAttackRange", true);
+            states.SetBool("IsPlayerInApproachRange", false);
         }
     }
 
-    void Idle()
+    public void Idle()
     {
-
+        
     }
 
     public void Stun()
@@ -97,65 +84,104 @@ public class Enemy : MonoBehaviour
         //agent.speed = 0;
         canSlice = true;
         Invoke(nameof(Regen), 5f);
+        meshRenderer.enabled = true;
+        rigModel.SetActive(false);
+        DisableAgent();
     }
     void Regen()
     {
         HP = StatPreset.HP /2;
         canSlice = false;
+        rigModel.SetActive(true);
+        meshRenderer.enabled = false;
+        EnableAgent();
     }
 
     public void Chase()
     {
         if(agent.enabled)
-        agent.destination = player.position;
-        agent.speed = chaseSpeed;
+        {
+            agent.destination = player.position;
+            agent.speed = chaseSpeed;
+            animator.Play("Walk");
+        }
     }
     public void Approach()
     {
         if(agent.enabled)
-        agent.destination = player.position;
-        agent.speed = approachSpeed;
+        {
+            agent.destination = player.position;
+            agent.speed = approachSpeed;
+            animator.Play("Walk");
+        }
     }
 
-    public void Attack()
+    public void Attacking()
     {
-        readyToAttack = false;
+        if(agent.enabled)
+        {
+            agent.speed = 0;
+        }
+
+        if(!attacking)
+        {
+            StartCoroutine(Attack());
+        }
+    }
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(.5f);
+        if(isStunned) yield break;
         attacking = true;
 
-        //enemySwordCollider.enabled = true;
+        animator.Play("Attack");
+        yield return new WaitForSeconds(0.32f);
+        enemySwordCollider.enabled = true;
 
-        Debug.Log("Enemy Attacked");
-
-        Invoke(nameof(AttackEnd), 1f);
-    }
-    void AttackEnd()
-    {
-        //enemySwordCollider.enabled = false;
+        yield return new WaitForSeconds(0.11f);
+        enemySwordCollider.enabled = false;
+        
+        yield return new WaitForSeconds(attackRate - 0.43f);
         attacking = false;
-        Invoke(nameof(ResetAttack), 0.4f);
     }
-    void ResetAttack()
+    public void StopAttack()
     {
-        readyToAttack = true;
+        StopCoroutine(Attack());
+        attacking = false;
+        
+
+        if(enemySwordCollider.enabled)
+            enemySwordCollider.enabled = false;
     }
 
 
     public void AttackBlocked()
     {
+        StopAttack();
         HP =- StatPreset.blockDamage;
-        //Play animation
-
-        //PlaceHolder
-        anim.Play("Idle");
+        StartCoroutine(AttackBlockedStun());
+    }
+    IEnumerator AttackBlockedStun()
+    {
+        isStunned = true;
+        animator.Play("Parried");
+        states.SetBool("IsStunned",true);
+        states.Play("Stunned");
+        yield return new WaitForSeconds(1f);
+        states.SetBool("IsStunned",false);
+        isStunned = false;
     }
 
 
     public void TakeDamage(float TakenDamage, float StunDuration, bool swordKb, Vector3 hitDir)
     {
-        Mathf.Clamp(TakenDamage,0,StatPreset.MaxDamageTaken);
         HP = HP - TakenDamage;
+        StopAttack();
         KnockBack(swordKb, hitDir);
-        StartCoroutine(Stun(StunDuration));
+        if(HP <= 0)
+        {
+            states.Play("Staggered");
+        }
     }
 
     void KnockBack(bool swordKb, Vector3 kbDirection)
@@ -176,10 +202,18 @@ public class Enemy : MonoBehaviour
         Vector3 dodgeStep = (player.position - transform.position).normalized * StatPreset.dodgeDistance * -1;
         rb.velocity = Vector3.zero;
         rb.AddForce(new Vector3(dodgeStep.x, 0, dodgeStep.z));
+        isStunned = true;
+        animator.Play("Stun");
+        states.Play("Stunned");
+        animator.SetBool("IsStunned", true);
+        states.SetBool("IsStunned",true);
 
         yield return new WaitForFixedUpdate();
-        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.01f);
         yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsStunned", false);
+        states.SetBool("IsStunned",false);
+        isStunned = false;
         EnableAgent();
     }
 
@@ -190,21 +224,20 @@ public class Enemy : MonoBehaviour
         DisableAgent();
         rb.velocity = Vector3.zero;
         rb.AddForce(kbDirection);
+        animator.Play("FistStun");
+        states.Play("Stunned");
+        animator.SetBool("IsStunned", true);
+        states.SetBool("IsStunned",true);
+        isStunned = true;
 
         yield return new WaitForSeconds(0.1f);
         yield return new WaitForFixedUpdate();
-        yield return new WaitUntil(() => rb.velocity.magnitude < 0.05f);
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.01f);
         yield return new WaitForSeconds(0.1f);
-        EnableAgent();
-    }
-
-    IEnumerator Stun(float stunDuration)
-    {
-        anim.Play("Stunned");
-        isStunned = true;
-        yield return new WaitForSeconds(stunDuration);
+        animator.SetBool("IsStunned", false);
+        states.SetBool("IsStunned",false);
         isStunned = false;
-        anim.SetBool("IsStunned",false);
+        EnableAgent();
     }
 
     IEnumerator AgentGroundCheck()

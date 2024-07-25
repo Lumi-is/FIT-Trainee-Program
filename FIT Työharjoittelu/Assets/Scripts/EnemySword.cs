@@ -10,12 +10,12 @@ public class EnemySword : MonoBehaviour
 
 
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "PlayerKatana")
+        if(other.gameObject.CompareTag("PlayerKatana"))
         {
             enemy.AttackBlocked();   
-        } else if(other.gameObject.tag == "Player")
+        } else if(other.gameObject.CompareTag("Player"))
         {
             PlayerBody player = other.gameObject.GetComponent<PlayerBody>();
             player.Die();
