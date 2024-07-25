@@ -6,11 +6,8 @@ using UnityEngine;
 public class EnemySword : MonoBehaviour
 {
     public Enemy enemy;
-    public bool isUsed = true;
 
-
-
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("PlayerKatana"))
         {

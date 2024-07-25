@@ -162,11 +162,14 @@ public class Enemy : MonoBehaviour
             enemySwordCollider.enabled = false;
     }
 
-
+    bool hasTakenBlockDamage;
     public void AttackBlocked()
     {
         StopAttack();
-        HP =- StatPreset.blockDamage;
+        //Charge powerfist
+        PowerFist powerFist = FindAnyObjectByType<PowerFist>();
+        powerFist.isCharged = true;
+        
         if(HP <= 0)
         {
             Stagger();
@@ -178,11 +181,13 @@ public class Enemy : MonoBehaviour
     {
         isStunned = true;
         animator.Play("Parried");
+        yield return new WaitForSeconds(1);
         states.SetBool("IsStunned",true);
         states.Play("Stunned");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1);
         states.SetBool("IsStunned",false);
         isStunned = false;
+        //hasTakenBlockDamage = false;
     }
 
 

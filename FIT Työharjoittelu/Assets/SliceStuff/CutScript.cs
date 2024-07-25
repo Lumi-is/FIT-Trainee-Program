@@ -68,7 +68,7 @@ public class BladeModeScript : MonoBehaviour
         Cursor.visible = false;
         //cutPlane.gameObject.SetActive(false);
 
-        enemySwordLayer = LayerMask.NameToLayer("Sword");
+        //enemySwordLayer = LayerMask.NameToLayer("Sword");
     }
 
     public void SendHapticImpulse(float Duration)
@@ -245,8 +245,7 @@ public class BladeModeScript : MonoBehaviour
 
         if((enemySwordLayer.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
         {
-            EnemySword enemySword = other.gameObject.GetComponent<EnemySword>();
-            Enemy enemy = enemySword.enemy;
+            Enemy enemy = other.gameObject.transform.root.GetComponent<Enemy>();
             enemy.AttackBlocked();
         }
     }

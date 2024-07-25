@@ -6538,6 +6538,9 @@ MonoBehaviour:
   otherLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  enemySwordLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   bladeHitCorrectly: 0
   bladeHitIncorrectly: 0
   canAttack: 1
@@ -9906,6 +9909,14 @@ MonoBehaviour:
   - {fileID: 0}
   DebugEnemyAmount: 0
   NumberOfEnemiesInScene: 0
+  dummy: {fileID: 0}
+  hasDashed: 0
+  HasMoved: 0
+  DummyHitAmount: 0
+  hasPunchedDummy: 0
+  leftHandStick: {fileID: 0}
+  buttonA: {fileID: 0}
+  tutorialText: {fileID: 0}
 --- !u!4 &1715564207
 Transform:
   m_ObjectHideFlags: 0
