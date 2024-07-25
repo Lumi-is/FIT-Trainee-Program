@@ -567,5 +567,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd885a6991204ea4aa1f5e7a94bcae42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 2047953835088736361}
   isUsed: 1

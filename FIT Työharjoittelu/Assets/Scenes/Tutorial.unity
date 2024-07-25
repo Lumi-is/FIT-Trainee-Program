@@ -5773,6 +5773,9 @@ MonoBehaviour:
   otherLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  enemySwordLayer:
+    serializedVersion: 2
+    m_Bits: 0
   bladeHitCorrectly: 0
   bladeHitIncorrectly: 0
   canAttack: 1
