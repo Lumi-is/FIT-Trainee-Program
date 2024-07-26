@@ -146,8 +146,8 @@ public class LevelManager : MonoBehaviour
             //If there is an enemy at index RANDOM 
             if(LevelEnemies[Random] != null)
             {
-                yield return new WaitForSeconds(CurrentLevelStat.enemySpawnCooldown);
                 SpawnEnemy(LevelEnemies[Random]);
+                yield return new WaitForSeconds(CurrentLevelStat.enemySpawnCooldown);
                 LevelEnemies[Random] = null;
                 StartCoroutine(EnemySpawning(LevelEnemies));
 
@@ -179,7 +179,7 @@ public class LevelManager : MonoBehaviour
                 PowerUpsInstantiated = true;
                 if(SceneManager.GetActiveScene().buildIndex != 9)
                 {
-                    InstantiatePowerups();
+                    Invoke(nameof(InstantiatePowerups),0.5f);
                 } else {
                     //Ability to destroy crystal, after which ending
                     StartCoroutine(BossCrystalDestroy());
@@ -300,38 +300,36 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator TutorialProgression()
     {
-        tutorialText.text = "Skip tutorial by pressing right thumbstick down";
+        tutorialText.text = "Welcome to a generic tutorial.";
         
         yield return new WaitForSeconds(5);
 
-        tutorialText.text = "Move with joystick. Jump and dash with the primary button (A) of your controller";
+        tutorialText.text = "Move with joystick. Jump and dash with the primary button (A) of your controller.";
 
         yield return new WaitUntil(()=> HasMoved && hasDashed);
         yield return new WaitForSeconds(1);
         //Show guide to attack dummy
-        tutorialText.text = "Try hitting this dummy with your sword";
+        tutorialText.text = "Try hitting the dummy with your sword :)";
 
         yield return new WaitUntil(()=> DummyHitAmount >= 1);
         yield return new WaitForSeconds(0.1f);
         tutorialText.text = "Faster swings deal more damage.";
 
+        yield return new WaitForSeconds(2f);
+        tutorialText.text = "Try hitting the dummy again, but faster.";
 
         yield return new WaitUntil(()=> DummyHitAmount >= 2);
         yield return new WaitForSeconds(0.1f);
-        tutorialText.text = "Try hitting the dummy again, but faster";
+        tutorialText.text = "One more time.";
 
         yield return new WaitUntil(()=> DummyHitAmount >= 3);
         yield return new WaitForSeconds(0.1f);
-        tutorialText.text = "One more time";
-
-        yield return new WaitUntil(()=> DummyHitAmount >= 4);
-        yield return new WaitForSeconds(0.1f);
-        tutorialText.text = "Great. Now try punching the dummy with your left fist";
+        tutorialText.text = "Great. Now try punching the dummy with your left fist.";
 
         yield return new WaitUntil(()=> hasPunchedDummy);
         yield return new WaitForSeconds(0.1f);
         
-        tutorialText.text = "Punching enemies with a charged fist makes them fly and staggers them. Staggered enemies can be sliced in half easily. Fist is charged when the crystal gemstone shines red.";
+        tutorialText.text = "Punching enemies with a charged fist makes them fly and staggers them. Staggered enemies can be sliced in half easily.";
 
         yield return new WaitForSeconds(10);
         dummy.HP = 0;
@@ -342,12 +340,14 @@ public class LevelManager : MonoBehaviour
 
         tutorialText.text = "Blocking attacks from enemies charges your fist, unless charged the fist does not do too much.";
         yield return new WaitForSeconds(6);
-        tutorialText.text = "Try blocking this enemy and killing them";
+        tutorialText.text = "Try blocking this enemy and killing them.";
 
         yield return new WaitForSeconds(0.5f);
         SpawnEnemy(weakEnemyStats.Prefab);
 
         yield return new WaitForSeconds(1);
+        yield return new WaitUntil(()=> NumberOfEnemiesInScene == 0);
+        
         tutorialText.text = "Great. After defeating all the threats the level has to offer, you will be given a powerup of two choices.";
 
         yield return new WaitForSeconds(3);

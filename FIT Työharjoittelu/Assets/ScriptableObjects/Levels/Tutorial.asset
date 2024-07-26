@@ -15,8 +15,8 @@ MonoBehaviour:
   CustomEnemySpawnType: 2
   delayBeforeStart: 0
   MaxEnemyAmount: 1
-  weakEnemyAmount: 1
+  weakEnemyAmount: 0
   avgEnemyAmount: 0
   strongEnemyAmount: 0
-  MaxConcurrentEnemies: 1
+  MaxConcurrentEnemies: 0
   enemySpawnCooldown: 0

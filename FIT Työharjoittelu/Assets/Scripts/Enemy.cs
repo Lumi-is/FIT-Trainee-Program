@@ -182,6 +182,10 @@ public class Enemy : MonoBehaviour
         isStunned = true;
         animator.Play("Parried");
         yield return new WaitForSeconds(1);
+        if(Random.Range(0,2) == 1)
+        {
+            transform.localScale = new Vector3(transform.localScale.x *-1, 1,1);
+        }
         states.SetBool("IsStunned",true);
         states.Play("Stunned");
         yield return new WaitForSeconds(1);

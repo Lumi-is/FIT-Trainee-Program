@@ -477,6 +477,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 8953087233792911558, guid: 2cb9ae47a8279cc40a6a3458fe658919,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemySword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -553,8 +558,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2757651, y: 1.2445992, z: 0.04834378}
-  m_Center: {x: -0.1291575, y: 0.7122255, z: -0.009825319}
+  m_Size: {x: 0.7604784, y: 1.3297858, z: 0.1734622}
+  m_Center: {x: -0.37152922, y: 0.75482786, z: -0.0068111047}
 --- !u!114 &7312452359579695603
 MonoBehaviour:
   m_ObjectHideFlags: 0

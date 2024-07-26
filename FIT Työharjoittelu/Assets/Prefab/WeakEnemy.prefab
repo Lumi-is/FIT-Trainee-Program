@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 6864875813967023036}
   m_Layer: 11
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: EnemySword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -421,8 +421,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.29700536, y: 1.038985, z: 0.042638138}
-  m_Center: {x: -0.14169732, y: 0.7635517, z: -0.013992893}
+  m_Size: {x: 0.68450487, y: 1.1195278, z: 0.10536893}
+  m_Center: {x: -0.33544898, y: 0.8038231, z: -0.0073996466}
 --- !u!114 &6864875813967023036
 MonoBehaviour:
   m_ObjectHideFlags: 0

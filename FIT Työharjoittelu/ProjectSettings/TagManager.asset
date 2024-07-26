@@ -15,6 +15,7 @@ TagManager:
   - DashBoost
   - Boss
   - PlayerFist
+  - EnemySword
   layers:
   - Default
   - TransparentFX

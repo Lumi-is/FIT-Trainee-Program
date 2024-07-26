@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] PlayerPowerUps playerPowerUps;
+    public void StartGame()
     {
-        
+        playerPowerUps.ResetPowerUps();
+        SceneManager.LoadScene("Level 1");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartTutorial()
     {
-        
+        playerPowerUps.ResetPowerUps();
+        SceneManager.LoadScene("Tutorial");
     }
 }

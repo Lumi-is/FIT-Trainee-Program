@@ -41,6 +41,8 @@ public class BladeModeScript : MonoBehaviour
 
     [SerializeField] AudioSource killSound;
 
+    [SerializeField] AudioSource blockSound;
+
 
     //[SerializeField] private float RotationThreshold;
     //public bool xRotationConstant;
@@ -247,6 +249,19 @@ public class BladeModeScript : MonoBehaviour
         {
             Enemy enemy = other.gameObject.transform.root.GetComponent<Enemy>();
             enemy.AttackBlocked();
+            SendHapticImpulse(0.2f);
+            blockSound.Play();
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if((enemySwordLayer.value & 1<< other.gameObject.layer) != 0<<other.gameObject.layer)
+        {
+            Enemy enemy = other.gameObject.transform.root.GetComponent<Enemy>();
+            //enemy.AttackBlocked();
+            SendHapticImpulse(0.2f);
+            blockSound.Play();
         }
     }
 
