@@ -17,4 +17,9 @@ public class UIManager : MonoBehaviour
         playerPowerUps.ResetPowerUps();
         SceneManager.LoadScene("Tutorial");
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

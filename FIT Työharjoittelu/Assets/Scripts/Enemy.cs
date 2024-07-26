@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Attacking")]
     [SerializeField] Collider enemySwordCollider;
-    [SerializeField] bool attacking = false;
+    public bool attacking = false;
     [SerializeField] private float approachRange;
     [SerializeField] private float attackRange;
     [SerializeField] private float chaseSpeed;

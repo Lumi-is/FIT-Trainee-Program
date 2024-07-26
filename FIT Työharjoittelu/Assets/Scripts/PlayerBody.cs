@@ -31,7 +31,7 @@ public class PlayerBody : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("EnemySword"))
+        if(col.gameObject.CompareTag("EnemySword") && col.gameObject.transform.root.GetComponent<Enemy>().attacking == true)
         {
             Die();
         }

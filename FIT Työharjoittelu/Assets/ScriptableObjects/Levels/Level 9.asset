@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 9
   m_EditorClassIdentifier: 
   CustomEnemySpawnType: 1
-  delayBeforeStart: 3
+  delayBeforeStart: 5
   MaxEnemyAmount: 30
   weakEnemyAmount: 15
   avgEnemyAmount: 10

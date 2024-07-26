@@ -262,8 +262,13 @@ public class LevelManager : MonoBehaviour
     private IEnumerator BossCrystalDestroy()
     {
         BossObject.layer = LayerMask.NameToLayer("Cuttable");
-        yield return new WaitUntil(()=> CrystalDestroyed);
-        LoadLevelDelay(5);
+        Invoke(nameof(LoadMenu),4);
+        yield break;
+    }
+
+    private void LoadMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 
     [Header("Tutorial")]
