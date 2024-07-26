@@ -24,6 +24,7 @@ public class PowerFist : MonoBehaviour
 
     [SerializeField] XRBaseController controller;
     [SerializeField] VisualEffect PunchImpactVFX;
+    [SerializeField] Animation punchAnimation;
 
     [Header("Audio")]
     [SerializeField] AudioSource punchSFX;
@@ -78,6 +79,7 @@ public class PowerFist : MonoBehaviour
         PunchImpactVFX.enabled = true;
         PunchImpactVFX.SendEvent("Play");
         punchSFX.Play();
+        punchAnimation.Play("power fist action");
         yield return new WaitForSeconds(2);
         PunchImpactVFX.enabled = false;
     }
