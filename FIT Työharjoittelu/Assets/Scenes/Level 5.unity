@@ -1784,6 +1784,12 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1793413081254231938, guid: a066bd3c166f05547ae97e8253b7da65, type: 3}
+--- !u!4 &376741417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6503678626960943379, guid: fe8ec1017bf4765408bcc717c19671ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 1739069445}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &379346303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5643,7 +5649,7 @@ MonoBehaviour:
   weakEnemyStats: {fileID: 11400000, guid: 8f29d6210e3ca314c9db1929555f93b4, type: 2}
   avgEnemyStats: {fileID: 11400000, guid: 7a1fa7c3e8920d346943b5d99b7d0ef0, type: 2}
   strongEnemyStats: {fileID: 11400000, guid: 2f1aaf3340f1b2e4a9837afa02cab594, type: 2}
-  Player: {fileID: 0}
+  Player: {fileID: 376741417}
   powerUpManager: {fileID: 1739069446}
   minDistanceFromPlayer: 10
   maxDistanceFromPlayer: 30
@@ -8953,7 +8959,7 @@ PrefabInstance:
     - target: {fileID: 5060490431847652503, guid: fe8ec1017bf4765408bcc717c19671ce,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -89.7
       objectReference: {fileID: 0}
     - target: {fileID: 5060490431847652503, guid: fe8ec1017bf4765408bcc717c19671ce,
         type: 3}
@@ -8963,7 +8969,7 @@ PrefabInstance:
     - target: {fileID: 5060490431847652503, guid: fe8ec1017bf4765408bcc717c19671ce,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -102.8
       objectReference: {fileID: 0}
     - target: {fileID: 5060490431847652503, guid: fe8ec1017bf4765408bcc717c19671ce,
         type: 3}
