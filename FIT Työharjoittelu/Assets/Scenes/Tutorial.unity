@@ -2535,6 +2535,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650028693}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &703639280 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 9029121526028979381, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5808214055493482299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &720701064
 GameObject:
   m_ObjectHideFlags: 0
@@ -3730,6 +3736,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8087919987258390035, guid: 6c9022ba4f3b8f64abf7b6b965460147,
     type: 3}
   m_PrefabInstance: {fileID: 840683203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &850727377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6324026437367656504, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5808214055493482299}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &852865695 stripped
 Transform:
@@ -5775,7 +5787,7 @@ MonoBehaviour:
     m_Bits: 0
   enemySwordLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   bladeHitCorrectly: 0
   bladeHitIncorrectly: 0
   canAttack: 1
@@ -7888,12 +7900,24 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5808214055493482299}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 850727377}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a132991eca76dc54a8e52de4d47b3a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2146539650 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5676205432434905885, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5808214055493482299}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2146539655 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5531415373923340781, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5808214055493482299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5808214055493482299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7912,6 +7936,31 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 940720518}
+    - target: {fileID: 3989819932970544981, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+        type: 3}
+      propertyPath: states
+      value: 
+      objectReference: {fileID: 2146539650}
+    - target: {fileID: 3989819932970544981, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2146539650}
+    - target: {fileID: 3989819932970544981, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+        type: 3}
+      propertyPath: rigModel
+      value: 
+      objectReference: {fileID: 850727377}
+    - target: {fileID: 3989819932970544981, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+        type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 2146539655}
+    - target: {fileID: 3989819932970544981, guid: 4e264fd9f5086224ab1808cc8261aa8c,
+        type: 3}
+      propertyPath: enemySwordCollider
+      value: 
+      objectReference: {fileID: 703639280}
     - target: {fileID: 6324026437367656504, guid: 4e264fd9f5086224ab1808cc8261aa8c,
         type: 3}
       propertyPath: m_Name
