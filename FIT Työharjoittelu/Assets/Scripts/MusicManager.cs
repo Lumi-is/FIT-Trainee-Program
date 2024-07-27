@@ -68,5 +68,13 @@ public class MusicManager : MonoBehaviour
             Music3.Stop();
             Music4.Stop();
         }
+
+        if(SceneManager.GetActiveScene().name == "DeathScreen")
+        {
+            Music1.Stop();
+            Music2.Stop();
+            Music3.Stop();
+            Music4.Stop();
+        }
     }
 }
