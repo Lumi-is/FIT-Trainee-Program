@@ -12,7 +12,10 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);       
+        if(SceneManager.GetActiveScene().name == "Level 9") return;
+        
+        DontDestroyOnLoad(gameObject);
+            
     }
 
     void OnDestroy()
@@ -23,6 +26,7 @@ public class MusicManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name == "Level 1")
         {
+            Music1.Stop();
             Music1.Play();
             Music2.Stop();
             Music3.Stop();
@@ -32,6 +36,7 @@ public class MusicManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "Level 3")
         {
             Music1.Stop();
+            Music2.Stop();
             Music2.Play();
             Music3.Stop();
             Music4.Stop();
@@ -41,6 +46,7 @@ public class MusicManager : MonoBehaviour
         {
             Music1.Stop();
             Music2.Stop();
+            Music3.Stop();
             Music3.Play();
             Music4.Stop();
         }
@@ -50,6 +56,7 @@ public class MusicManager : MonoBehaviour
             Music1.Stop();
             Music2.Stop();
             Music3.Stop();
+            Music4.Stop();
             Music4.Play();
         }
 
